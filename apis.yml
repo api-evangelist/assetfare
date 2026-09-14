@@ -1,0 +1,61 @@
+name: AssetFare
+description: >-
+  A capped, non-custodial routing API for a single corridor — Solana SOL to Base native ETH — aimed at AI agents. It
+  returns fee-inclusive quotes and bounded unsigned actions; the caller's agent verifies, signs, and submits every
+  transaction. AssetFare never receives private keys and never signs or submits, framing itself as one route candidate
+  rather than a market-wide best-price aggregator.
+url: https://raw.githubusercontent.com/api-evangelist/assetfare/refs/heads/main/apis.yml
+created: '2026-09-14'
+modified: '2026-09-14'
+specificationVersion: '0.21'
+tags:
+  - AI Agents
+  - Asset Transfer
+  - Bridge
+  - Cross-chain
+  - Non-custodial
+  - Cryptocurrency
+  - Solana
+  - Base
+  - OpenAPI
+  - MCP
+  - Agent Skills
+apis:
+  - name: AssetFare Agent-native Route API
+    description: >-
+      Public REST API for the solana:SOL -> base:ETH corridor. Public no-auth quote/status/manifest endpoints plus
+      bearer-protected session and execution workflow. Includes hosted MCP server, llms.txt agent guide, Arazzo
+      workflow, and a published agent skill.
+    humanURL: https://assetfare.dev/solana-to-base-agent-route/
+    baseURL: https://api.assetfare.dev
+    tags:
+      - AI Agents
+      - Asset Transfer
+      - Bridge
+      - Cross-chain
+      - Non-custodial
+      - Cryptocurrency
+      - Solana
+      - Base
+      - OpenAPI
+      - MCP
+      - Agent Skills
+    properties:
+      - type: OpenAPI
+        url: https://api.assetfare.dev/openapi.json
+      - type: Documentation
+        url: https://assetfare.dev/llms-full.txt
+      - type: LLMsTxt
+        url: https://assetfare.dev/llms-full.txt
+      - type: MCPServer
+        url: https://api.assetfare.dev/mcp
+      - type: AgentSkill
+        url: https://github.com/odaiin/assetfare-mcp/blob/main/skills/assetfare-route/SKILL.md
+maintainers:
+  - FN: odaiin
+    url: https://github.com/odaiin/assetfare-mcp
+generated:
+  by: apis.io/add
+  model: claude-opus-4-8
+  confidence: 95
+  at: '2026-09-14T14:20:10.167Z'
