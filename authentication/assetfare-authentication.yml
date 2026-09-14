@@ -1,0 +1,28 @@
+generated: '2026-09-14'
+method: searched
+source: >-
+  openapi/assetfare-agent-native-route-api-openapi.json securitySchemes +
+  https://assetfare.dev/llms.txt (Self-service execution) fetched 2026-09-14
+docs: https://assetfare.dev/llms.txt
+summary:
+  types:
+    - http
+schemes:
+  - name: bearerAuth
+    type: http
+    scheme: bearer
+    description: Revocable wallet-bound credential required for session endpoints.
+    sources:
+      - openapi/assetfare-agent-native-route-api-openapi.json
+wallet_auth_flow:
+  style: solana-signmessage-challenge
+  steps:
+    - POST /v1/auth/challenge with a Solana source_wallet -> returns an exact challenge message that authorizes no transaction.
+    - Sign that message with the wallet's signMessage capability (off-chain; no transaction/approval/transfer).
+    - POST /v1/auth/verify with challenge_id, source_wallet, signature, and terms_version -> returns a Bearer token.
+    - Use the token for /v1/session and every session subresource.
+  binding: The token is bound to the verified source wallet; a different source wallet is rejected.
+  constraints: At most 5 unverified live login challenges may exist for one wallet.
+public_endpoints:
+  no_auth: [getQuote, getStatus, getSignedManifest, createWalletChallenge, verifyWalletSignature]
+  note: Quote, status, and signed manifest require no token; challenge/verify mint the token.

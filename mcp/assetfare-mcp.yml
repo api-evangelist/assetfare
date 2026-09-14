@@ -1,0 +1,73 @@
+generated: '2026-09-14'
+method: searched
+source: https://api.assetfare.dev/mcp (live tools/list) + https://registry.modelcontextprotocol.io (official registry) + https://github.com/odaiin/assetfare-mcp
+name: AssetFare
+server_name: io.github.odaiin/assetfare
+description: >-
+  Official hosted, non-custodial MCP server for the capped Solana SOL to Base/Arbitrum ETH
+  corridors. Listed in the official MCP Registry (status active). tools/list is anonymous;
+  read tools are open, execution tools require a caller-supplied wallet-bound access token
+  passed as a tool argument. The server never signs or submits transactions.
+registry:
+  name: io.github.odaiin/assetfare
+  url: https://registry.modelcontextprotocol.io/v0/servers?search=assetfare
+  status: active
+  published: '2026-09-14'
+deployment:
+  mode: both
+  endpoint: https://api.assetfare.dev/mcp
+  transport: streamable-http
+  install: "git clone https://github.com/odaiin/assetfare-mcp && node src/server.js"
+  package: https://github.com/odaiin/assetfare-mcp
+  package_note: >-
+    A first-party stdio server (bin assetfare-mcp, src/server.js, @modelcontextprotocol/sdk 1.30.0)
+    ships in the GitHub repo but is NOT published to npm (registry.npmjs.org/assetfare-mcp returned 404),
+    so local use requires cloning the repo. The remote streamable-http endpoint is the reachable agent surface.
+  auth: none
+  verified: probed
+probe:
+  url: https://api.assetfare.dev/mcp
+  method: tools/list
+  http_status: 200
+  fetched: '2026-09-14'
+  tool_count: 13
+tools:
+  - name: assetfare_status
+    read_only: true
+    description: Read current capabilities, caps, pause state, and independent RPC quorum.
+  - name: assetfare_manifest
+    read_only: true
+    description: Read the Ed25519-signed capability, contract, release, and mainnet-evidence manifest.
+  - name: assetfare_quote
+    read_only: true
+    description: Get a fee-inclusive Solana SOL to Base or Arbitrum ETH quote. Creates no session or transaction.
+  - name: assetfare_start_wallet_auth
+    read_only: false
+    description: Create a non-transactional Solana signMessage challenge.
+  - name: assetfare_finish_wallet_auth
+    read_only: false
+    description: Verify a wallet signature over the challenge and return a wallet-bound access token.
+  - name: assetfare_create_session
+    read_only: false
+    description: Lock a fresh quote into a wallet-bound execution session.
+  - name: assetfare_read_session
+    read_only: true
+    description: Read a wallet-bound session, workflow, receipt, or current unsigned action.
+  - name: assetfare_prepare_source_action
+    read_only: false
+    description: Prepare a bounded unsigned Solana source action. Never signs or submits.
+  - name: assetfare_verify_source_receipt
+    read_only: false
+    description: Verify a caller-submitted finalized Solana source signature and advance the workflow.
+  - name: assetfare_prepare_cctp_action
+    read_only: false
+    description: Prepare an unsigned CCTP burn action using a caller-generated event signer public key.
+  - name: assetfare_observe_cctp
+    read_only: false
+    description: Verify Circle attestation and the forwarded Base/Arbitrum USDC mint for a submitted burn.
+  - name: assetfare_prepare_destination_action
+    read_only: false
+    description: Prepare the exact-cap permit and unsigned ERC-4337 destination settlement plan.
+  - name: assetfare_observe_destination
+    read_only: false
+    description: Verify a submitted destination UserOperation receipt and finalize the workflow.

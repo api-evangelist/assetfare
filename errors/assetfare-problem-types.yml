@@ -1,0 +1,32 @@
+generated: '2026-09-14'
+method: derived
+source: openapi/assetfare-agent-native-route-api-openapi.json (4xx/5xx responses + Error schema) fetched 2026-09-14
+format: json
+media_type: application/json
+note: >-
+  Errors are a plain JSON object (not RFC 9457 problem+json). The required field is `error`; optional
+  fields include status, retryable, retry_after_seconds, workflow_state, required_workflow_state,
+  next_action, recovery, active_session_release_at.
+envelope:
+  required: [error]
+  optional: [status, retryable, retry_after_seconds, workflow_state, required_workflow_state, next_action, recovery, active_session_release_at]
+status_codes:
+  - code: 400
+    meaning: Invalid request (bad quote params, malformed challenge/verify payload).
+    operations: [createWalletChallenge, verifyWalletSignature, getQuote]
+  - code: 409
+    meaning: Workflow-state conflict — the requested action does not match the session's current required state.
+    operations: [createSession, observeCctp, observeDestination, prepareCctpAction, prepareDestinationAction, prepareSourceAction, getReceipt, verifySourceReceipt]
+    note: The Error body's workflow_state / required_workflow_state / next_action guide recovery.
+  - code: 410
+    meaning: Gone — a stale/expired action (e.g. an expired source action or destination step) can no longer be used.
+    operations: [observeDestination, prepareSourceAction]
+  - code: 429
+    meaning: Rate limited. Body carries retry_after_seconds and retryable.
+    operations: [createWalletChallenge, verifyWalletSignature, getQuote]
+  - code: 502
+    meaning: Upstream routing/RPC failure while pricing a quote.
+    operations: [getQuote]
+  - code: 503
+    meaning: Service unavailable — auth challenge/verify temporarily unavailable (e.g. paused).
+    operations: [createWalletChallenge, verifyWalletSignature]

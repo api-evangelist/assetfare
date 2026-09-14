@@ -1,0 +1,29 @@
+generated: '2026-09-14'
+method: searched
+source: https://github.com/odaiin/assetfare-mcp/blob/main/skills/assetfare-route/SKILL.md (saved verbatim 2026-09-14)
+skills:
+  - name: assetfare-route
+    file: skills/assetfare-route.md
+    api: AssetFare Agent-native Route API
+    published: true
+    description: >-
+      Provider-published Agent Skill for quoting, comparing, and preparing a capped non-custodial
+      Solana SOL to Base/Arbitrum ETH route through AssetFare — wallet-signature login, unsigned action
+      verification, CCTP status, and recovery planning.
+    operations:
+      - assetfare_status
+      - assetfare_manifest
+      - assetfare_quote
+      - assetfare_start_wallet_auth
+      - assetfare_finish_wallet_auth
+      - assetfare_create_session
+      - assetfare_read_session
+      - assetfare_prepare_source_action
+      - assetfare_verify_source_receipt
+      - assetfare_prepare_cctp_action
+      - assetfare_observe_cctp
+      - assetfare_prepare_destination_action
+      - assetfare_observe_destination
+note: >-
+  This is a first-party, provider-authored skill saved verbatim (not generated). It grounds every step
+  in real MCP tool names / REST operationIds and enforces the non-custodial safety boundary.

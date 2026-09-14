@@ -1,0 +1,53 @@
+generated: '2026-09-14'
+method: probed
+source: live /.well-known probes of both AssetFare hosts (fetched 2026-09-14)
+hosts:
+  - host: api.assetfare.dev
+    documents:
+      - path: /.well-known/security.txt
+        status: 200
+        file: well-known/assetfare-security.txt
+      - path: /.well-known/api-catalog
+        status: 200
+        file: well-known/assetfare-api-catalog.json
+        note: RFC 9727 linkset (application/linkset+json), pointing at openapi.json + arazzo.yaml.
+      - path: /.well-known/assetfare-manifest.json
+        status: 200
+        file: well-known/assetfare-manifest.json
+        note: Vendor Ed25519-signed capability manifest (also referenced from the OpenAPI as an operation).
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/oauth-protected-resource
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+  - host: assetfare.dev
+    documents:
+      - path: /.well-known/security.txt
+        status: 200
+        note: Canonical copy (same document; canonical URL declared in the file).
+      - path: /.well-known/api-catalog
+        status: 200
+        note: RFC 9727 linkset served on the root host as well.
+      - path: /.well-known/assetfare-manifest.pub
+        status: 200
+        note: Ed25519 public key for verifying the signed manifest.
+      - path: /.well-known/api-onboarding
+        status: 200
+        note: API Commons api-onboarding descriptor (aod 0.1, maturity self-serve).
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404

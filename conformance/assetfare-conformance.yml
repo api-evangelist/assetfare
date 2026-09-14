@@ -1,0 +1,65 @@
+generated: '2026-09-14'
+method: searched
+source: >-
+  openapi/assetfare-agent-native-route-api-openapi.json + live MCP tools/list +
+  https://api.assetfare.dev/.well-known/assetfare-manifest.json +
+  https://api.assetfare.dev/.well-known/api-catalog + https://api.assetfare.dev/.well-known/security.txt (2026-09-14)
+conformance:
+  - id: rfc9727-api-catalog
+    conforms: true
+    evidence: >-
+      /.well-known/api-catalog served with content-type application/linkset+json;
+      profile="https://www.rfc-editor.org/info/rfc9727" (linkset with service-desc/service-doc entries).
+  - id: rfc9116-security-txt
+    conforms: true
+    evidence: /.well-known/security.txt served on both hosts with Contact, Policy, Expires, Canonical fields.
+  - id: rfc8288-linkset
+    conforms: true
+    evidence: api-catalog is an RFC 8288/9264 linkset JSON document.
+  - id: idempotency
+    conforms: partial
+    evidence: >-
+      Required body field `idempotency_key` on 6 mutating session operations (createSession,
+      verifySourceReceipt, prepareCctpAction, observeCctp, prepareDestinationAction, observeDestination).
+      Not applied to auth or prepareSourceAction. See conventions/assetfare-conventions.yml.
+  - id: rfc9457-problem-json
+    conforms: false
+    evidence: Errors use a plain application/json envelope (required `error`), not problem+json.
+  - id: oauth2
+    conforms: false
+    evidence: No oauth2 securityScheme; auth is a wallet-signature (Solana signMessage) bearer handshake.
+domain_standards:
+  - id: circle-cctp
+    name: Circle Cross-Chain Transfer Protocol (CCTP)
+    conforms: true
+    evidence: >-
+      Contract exposes observe-cctp / prepare-cctp-action operations; manifest carries mainnet
+      cctp_burn evidence signatures; tool assetfare_observe_cctp verifies the Circle attestation and
+      forwarded Base/Arbitrum USDC mint. openapi paths /v1/session/{id}/prepare-cctp-action and /observe-cctp.
+  - id: erc-4337
+    name: ERC-4337 Account Abstraction (UserOperation)
+    conforms: true
+    evidence: >-
+      assetfare_prepare_destination_action prepares "the exact-cap permit and unsigned ERC-4337
+      destination settlement plan"; observe-destination verifies a submitted destination UserOperation receipt.
+  - id: eip-2612-permit
+    name: EIP-2612 permit (exact-cap approval)
+    conforms: true
+    evidence: prepareDestinationAction returns an exact-cap permit for the destination settlement.
+  - id: ed25519-signed-manifest
+    name: Ed25519 detached-signature capability manifest
+    conforms: true
+    evidence: >-
+      /.well-known/assetfare-manifest.json carries signature.algorithm "Ed25519" over canonical JSON,
+      with the public key at /.well-known/assetfare-manifest.pub.
+  - id: solana-signmessage-wallet-auth
+    name: Solana off-chain signMessage wallet authentication
+    conforms: true
+    evidence: >-
+      /v1/auth/challenge returns a signMessage message that authorizes no transaction; /v1/auth/verify
+      checks the wallet signature and binds a token to the source wallet.
+compliance_certifications: []
+note: >-
+  No SOC 2 / ISO 27001 / PCI / HIPAA / FedRAMP certifications are published; the security page describes
+  a private vulnerability-disclosure program only. Domain-standard entries are reward-only and are
+  declared by the contract/manifest, not by a marketing claim.

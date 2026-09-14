@@ -1,0 +1,29 @@
+generated: '2026-09-14'
+method: searched
+source: >-
+  https://api.assetfare.dev/v1/status + https://api.assetfare.dev/.well-known/assetfare-manifest.json +
+  openapi info.version + https://assetfare.dev/llms.txt (fetched 2026-09-14)
+versioning:
+  scheme: uri-path (/v1) with a semantic contract version
+  current_version: 0.8.2
+  release_commit: 432996335ad45db7d9632f8597ff2b09e3fe7dff
+  note: >-
+    Phase is "capped_agent_demand_validation" (pre-1.0). /v1/status reports api_version, release_commit,
+    and operational state; the Ed25519-signed manifest re-states release_commit and mainnet evidence.
+status_page:
+  type: json-endpoint
+  url: https://api.assetfare.dev/v1/status
+  reports: [status, new_sessions_paused, self_service_wallet_authentication_enabled, rpc.quorum, limits, supported_corridors]
+  note: >-
+    Machine-readable health/capability endpoint (returns status:"operational", pause state, and the
+    two-provider RPC quorum). There is no separate hosted status.io-style page.
+deprecation:
+  policy: none-published
+  sunset_headers: false
+  deprecated_operations: []
+  note: No Deprecation/Sunset (RFC 8594) headers or dated deprecation policy found in the contract or docs.
+sla:
+  published: false
+  note: >-
+    No formal SLA; the service publishes hard caps (min $250, max $1,000/route, $1,000/wallet/day,
+    $5,000/day global, 1 active session/wallet, 50 self-service wallets) and a live pause flag instead.

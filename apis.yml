@@ -1,14 +1,32 @@
 name: AssetFare
-description: >-
-  A capped, non-custodial routing API for a single corridor — Solana SOL to Base native ETH — aimed at AI agents. It
-  returns fee-inclusive quotes and bounded unsigned actions; the caller's agent verifies, signs, and submits every
-  transaction. AssetFare never receives private keys and never signs or submits, framing itself as one route candidate
-  rather than a market-wide best-price aggregator.
+description: A capped, non-custodial routing API for a single corridor — Solana SOL to Base native ETH — aimed at AI agents.
+  It returns fee-inclusive quotes and bounded unsigned actions; the caller's agent verifies, signs, and submits every transaction.
+  AssetFare never receives private keys and never signs or submits, framing itself as one route candidate rather than a market-wide
+  best-price aggregator.
 url: https://raw.githubusercontent.com/api-evangelist/assetfare/refs/heads/main/apis.yml
 created: '2026-09-14'
 modified: '2026-09-14'
 specificationVersion: '0.21'
 tags:
+- AI Agents
+- Asset Transfer
+- Bridge
+- Cross-chain
+- Non-custodial
+- Cryptocurrency
+- Solana
+- Base
+- OpenAPI
+- MCP
+- Agent Skills
+apis:
+- name: AssetFare Agent-native Route API
+  description: Public REST API for the solana:SOL -> base:ETH corridor. Public no-auth quote/status/manifest endpoints plus
+    bearer-protected session and execution workflow. Includes hosted MCP server, llms.txt agent guide, Arazzo workflow, and
+    a published agent skill.
+  humanURL: https://assetfare.dev/solana-to-base-agent-route/
+  baseURL: https://api.assetfare.dev
+  tags:
   - AI Agents
   - Asset Transfer
   - Bridge
@@ -20,42 +38,76 @@ tags:
   - OpenAPI
   - MCP
   - Agent Skills
-apis:
-  - name: AssetFare Agent-native Route API
-    description: >-
-      Public REST API for the solana:SOL -> base:ETH corridor. Public no-auth quote/status/manifest endpoints plus
-      bearer-protected session and execution workflow. Includes hosted MCP server, llms.txt agent guide, Arazzo
-      workflow, and a published agent skill.
-    humanURL: https://assetfare.dev/solana-to-base-agent-route/
-    baseURL: https://api.assetfare.dev
-    tags:
-      - AI Agents
-      - Asset Transfer
-      - Bridge
-      - Cross-chain
-      - Non-custodial
-      - Cryptocurrency
-      - Solana
-      - Base
-      - OpenAPI
-      - MCP
-      - Agent Skills
-    properties:
-      - type: OpenAPI
-        url: https://api.assetfare.dev/openapi.json
-      - type: Documentation
-        url: https://assetfare.dev/llms-full.txt
-      - type: LLMsTxt
-        url: https://assetfare.dev/llms-full.txt
-      - type: MCPServer
-        url: https://api.assetfare.dev/mcp
-      - type: AgentSkill
-        url: https://github.com/odaiin/assetfare-mcp/blob/main/skills/assetfare-route/SKILL.md
+  properties:
+  - type: OpenAPI
+    url: openapi/assetfare-agent-native-route-api-openapi.json
+  - type: Documentation
+    url: https://assetfare.dev/solana-to-base-agent-route/
+  - type: APIReference
+    url: https://api.assetfare.dev/openapi.json
+  - type: LLMsTxt
+    url: llms/assetfare-llms.txt
+  - type: MCPServer
+    url: https://api.assetfare.dev/mcp
+  - type: ToolCrosswalk
+    url: mcp/assetfare-tool-crosswalk.yml
+  - type: AgentSkill
+    url: https://github.com/odaiin/assetfare-mcp/blob/main/skills/assetfare-route/SKILL.md
+  - type: Overlay
+    url: overlays/assetfare-agent-native-route-api-overlay.yaml
+  - type: ErrorCatalog
+    url: errors/assetfare-problem-types.yml
+  - type: Conventions
+    url: conventions/assetfare-conventions.yml
+  - type: Idempotency
+    url: conventions/assetfare-conventions.yml
+  - type: DataModel
+    url: data-model/assetfare-data-model.yml
+  - type: Conformance
+    url: conformance/assetfare-conformance.yml
+  - type: Plans
+    url: plans/assetfare-plans-pricing.yml
+  - type: RateLimits
+    url: rate-limits/assetfare-rate-limits.yml
+  - type: Lifecycle
+    url: lifecycle/assetfare-lifecycle.yml
+  - type: StatusPage
+    url: https://api.assetfare.dev/v1/status
 maintainers:
-  - FN: odaiin
-    url: https://github.com/odaiin/assetfare-mcp
-generated:
-  by: apis.io/add
-  model: claude-opus-4-8
-  confidence: 95
-  at: '2026-09-14T14:20:10.167Z'
+- FN: odaiin
+  url: https://github.com/odaiin/assetfare-mcp
+  email: support@assetfare.dev
+common:
+- type: DomainSecurity
+  url: security/assetfare-domain-security.yml
+- type: VulnerabilityDisclosure
+  url: security/assetfare-vulnerability-disclosure.yml
+- type: Authentication
+  url: authentication/assetfare-authentication.yml
+- type: WellKnown
+  url: well-known/assetfare-well-known.yml
+- type: SecurityTxt
+  url: well-known/assetfare-security.txt
+- type: Security
+  url: well-known/assetfare-security.txt
+- type: AgentSkill
+  url: skills/_index.yml
+- type: MCPServer
+  url: mcp/assetfare-mcp.yml
+- type: DeveloperPortal
+  url: https://assetfare.dev/
+- type: Pricing
+  url: https://assetfare.dev/pricing/
+- type: TermsOfService
+  url: https://assetfare.dev/terms/
+- type: PrivacyPolicy
+  url: https://assetfare.dev/privacy/
+- type: SourceCode
+  url: https://github.com/odaiin/assetfare-mcp
+- type: Website
+  url: https://assetfare.dev/
+x-enrichment:
+  date: '2026-09-14'
+  status: enriched
+  artifacts_added: 24
+  pass: local-v3

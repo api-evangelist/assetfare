@@ -1,0 +1,85 @@
+generated: '2026-09-14'
+method: derived
+source: >-
+  Bound live MCP tools/list (https://api.assetfare.dev/mcp) to OpenAPI operationIds in
+  openapi/assetfare-agent-native-route-api-openapi.json. Both surfaces fetched anonymously 2026-09-14.
+surfaces:
+  openapi: openapi/assetfare-agent-native-route-api-openapi.json
+  mcp: https://api.assetfare.dev/mcp
+  gated: false
+  note: MCP tools/list is anonymous; execution tools require a caller-supplied wallet-bound token argument.
+crosswalk:
+  - tool: assetfare_status
+    category: read
+    rest: [getStatus]
+    binding: GET /v1/status
+    confidence: high
+  - tool: assetfare_manifest
+    category: read
+    rest: [getSignedManifest]
+    binding: GET /.well-known/assetfare-manifest.json
+    confidence: high
+  - tool: assetfare_quote
+    category: read
+    rest: [getQuote]
+    binding: POST /v1/quote
+    confidence: high
+  - tool: assetfare_start_wallet_auth
+    category: auth
+    rest: [createWalletChallenge]
+    binding: POST /v1/auth/challenge
+    confidence: high
+  - tool: assetfare_finish_wallet_auth
+    category: auth
+    rest: [verifyWalletSignature]
+    binding: POST /v1/auth/verify
+    confidence: high
+  - tool: assetfare_create_session
+    category: write
+    rest: [createSession]
+    binding: POST /v1/session
+    confidence: high
+  - tool: assetfare_read_session
+    category: read
+    rest: [getSession, getWorkflow, getReceipt, getNextAction]
+    binding: GET /v1/session/{session_id} (+ workflow/receipt/next-action views via the `view` argument)
+    confidence: high
+    note: The single tool multiplexes four read operations through its `view` enum.
+  - tool: assetfare_prepare_source_action
+    category: write
+    rest: [prepareSourceAction]
+    binding: POST /v1/session/{session_id}/prepare-source-action
+    confidence: high
+  - tool: assetfare_verify_source_receipt
+    category: write
+    rest: [verifySourceReceipt]
+    binding: POST /v1/session/{session_id}/verify-source
+    confidence: high
+  - tool: assetfare_prepare_cctp_action
+    category: write
+    rest: [prepareCctpAction]
+    binding: POST /v1/session/{session_id}/prepare-cctp-action
+    confidence: high
+  - tool: assetfare_observe_cctp
+    category: write
+    rest: [observeCctp]
+    binding: POST /v1/session/{session_id}/observe-cctp
+    confidence: high
+  - tool: assetfare_prepare_destination_action
+    category: write
+    rest: [prepareDestinationAction]
+    binding: POST /v1/session/{session_id}/prepare-destination-action
+    confidence: high
+  - tool: assetfare_observe_destination
+    category: write
+    rest: [observeDestination]
+    binding: POST /v1/session/{session_id}/observe-destination
+    confidence: high
+mcp_only: []
+rest_only: []
+coverage:
+  openapi_operations: 16
+  mcp_tools: 13
+  tools_bound: 13
+  operations_covered: 16
+  note: Every MCP tool binds to at least one public REST operation; every operation is reachable from a tool.

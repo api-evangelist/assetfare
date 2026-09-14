@@ -1,0 +1,42 @@
+generated: '2026-09-14'
+method: searched
+source: https://assetfare.dev/llms.txt (Quote section) + openapi 429 responses + Error schema (fetched 2026-09-14)
+limit_count: 3
+exhaustion_status: 429
+response_headers:
+  standard_ratelimit_headers: none
+  detail: >-
+    No X-RateLimit-*/RateLimit-*/Retry-After response headers are declared. On 429 the JSON error body
+    carries `retry_after_seconds` (integer, min 1) and `retryable` (bool).
+limits:
+  - scope: per-source-IP
+    surface: POST /v1/quote (cache misses)
+    window: 60s
+    limit: 3
+    note: Cache misses only; identical cache hits within the 20-second TTL do not consume the budget.
+  - scope: global
+    surface: POST /v1/quote (cache misses)
+    window: 60s
+    limit: 20
+    note: Global cache-miss budget across all callers.
+  - scope: per-wallet
+    surface: login challenges
+    window: concurrent
+    limit: 5
+    note: At most five unverified live login challenges may exist for one wallet.
+capacity_caps:
+  - scope: per-wallet
+    window: daily
+    limit_usd: 1000
+  - scope: global
+    window: daily
+    limit_usd: 5000
+  - scope: per-wallet
+    metric: active_sessions
+    limit: 1
+  - scope: service
+    metric: self_service_wallets
+    limit: 50
+note: >-
+  Rate/capacity limits are published in llms.txt and echoed by /v1/status and the signed manifest.
+  These are throttle + notional-value caps rather than a classic requests-per-minute quota tier.

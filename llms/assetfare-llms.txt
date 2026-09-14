@@ -1,0 +1,51 @@
+# AssetFare
+
+> Capped, non-custodial Solana-to-Base/Arbitrum execution for AI agents.
+
+## Launch status
+
+- Wallet-signed self-service is enabled for capped agent demand validation.
+- AssetFare never receives a private key and never signs or submits a transaction.
+- Read the machine contract first: `https://api.assetfare.dev/openapi.json`.
+- API discovery index: `https://assetfare.dev/apis.json`.
+- Read-only evaluation workflow: `https://assetfare.dev/arazzo.yaml`.
+- REST and OpenAPI are the primary agent interfaces. MCP is an optional adapter.
+- Optional remote MCP endpoint: `https://api.assetfare.dev/mcp` (Streamable HTTP).
+- Verify capability claims using the signed manifest `https://api.assetfare.dev/.well-known/assetfare-manifest.json` and public key `https://assetfare.dev/.well-known/assetfare-manifest.pub`.
+- Terms: `https://assetfare.dev/terms/`; privacy: `https://assetfare.dev/privacy/`; private vulnerability reporting: `https://assetfare.dev/security/`.
+- Support: `support@assetfare.dev`; security reports: `security@assetfare.dev`.
+- Machine-readable pricing: `https://assetfare.dev/pricing.json`.
+- Machine-readable API onboarding: `https://assetfare.dev/.well-known/api-onboarding`.
+- RFC 9727 API catalog: `https://assetfare.dev/.well-known/api-catalog`.
+- Official MCP Registry server: `io.github.odaiin/assetfare`.
+
+## Quote
+
+- `POST https://api.assetfare.dev/v1/quote` requires no token.
+- Corridors: Solana SOL to Base native ETH; Solana SOL to Arbitrum native ETH.
+- `amount_usd` is a whole JSON number from 250 through 1000.
+- Base request: `{"from_chain":"solana","from_token":"SOL","to_chain":"base","to_token":"ETH","amount_usd":250}`.
+- Arbitrum request: `{"from_chain":"solana","from_token":"SOL","to_chain":"arbitrum","to_token":"ETH","amount_usd":250}`.
+- Quotes expire after `ttl_seconds`; they are estimates, not execution guarantees.
+- Cache misses: 3 per source IP and 20 globally per 60 seconds. Identical cache hits in the 20-second TTL do not consume that budget.
+
+## Self-service execution
+
+1. `POST /v1/auth/challenge` with a Solana `source_wallet`.
+2. Sign the exact returned message with that wallet's `signMessage` capability. The message explicitly authorizes no transaction, approval, or transfer.
+3. `POST /v1/auth/verify` with the challenge id, wallet, signature, and terms version. Store the returned Bearer token securely.
+4. Use the token for `/v1/session` and every session subresource.
+
+- The token is bound to the verified source wallet; another source wallet is rejected.
+- At most five unverified live login challenges may exist for one wallet.
+- Limits: one active session per wallet, $1,000 per wallet per day, $5,000 globally per day, and at most 50 self-service wallets.
+- AssetFare returns bounded unsigned actions only. Your agent verifies each `agent_must_verify` item, then signs and submits using its own wallets.
+- Workflow: SOL → Solana USDC → CCTP → Base or Arbitrum smart-account USDC → destination ETH. It is non-atomic.
+- On failure, query `/v1/session/{session_id}/workflow` and `/receipt`; do not blindly resubmit stale actions.
+
+## Fees and safety
+
+- AssetFare fee: 1 bp, capped at 5 USDC, charged only in a successful destination settlement.
+- `cost_interval_usd` is a modeled range, not an extra charge.
+- The source path uses local direct Raydium CLMM construction with independent Helius + Alchemy RPC quorum; no swap-aggregator API is used.
+- The offer is AssetFare's route, not a claim that every market route was compared.

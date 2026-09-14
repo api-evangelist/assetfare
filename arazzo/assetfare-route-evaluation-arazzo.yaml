@@ -1,0 +1,94 @@
+arazzo: 1.1.0
+$self: https://assetfare.dev/arazzo.yaml
+info:
+  title: AssetFare read-only route evaluation
+  summary: Verify AssetFare and obtain a fresh Solana SOL to Base or Arbitrum ETH quote.
+  description: >-
+    A machine-readable, read-only first-call workflow for AI agents. It reads
+    public status and the signed capability manifest, then requests AssetFare's
+    own fee-inclusive route offer. It deliberately stops before wallet
+    authentication, session creation, signing, approval, or transaction
+    submission. The caller must compare the result against other executable
+    routes and must not assume AssetFare is market-wide best.
+  version: 1.0.0
+sourceDescriptions:
+  - name: assetfareApi
+    url: https://api.assetfare.dev/openapi.json
+    type: openapi
+workflows:
+  - workflowId: evaluateSolanaToEvmQuote
+    summary: Read public trust material and request one fresh route offer.
+    description: >-
+      Use this workflow when the requested intent is Solana SOL to Base or
+      Arbitrum native ETH and the whole-dollar amount is between 250 and 1000. Successful
+      completion is evidence that AssetFare can be evaluated, not permission to
+      authenticate a wallet or execute a route.
+    inputs:
+      type: object
+      additionalProperties: false
+      required:
+        - amountUsd
+        - destinationChain
+      properties:
+        amountUsd:
+          type: number
+          minimum: 250
+          maximum: 1000
+          multipleOf: 1
+          description: Whole-dollar route amount.
+        destinationChain:
+          type: string
+          enum: [base, arbitrum]
+          description: Supported destination EVM chain.
+    steps:
+      - stepId: readStatus
+        description: >-
+          Confirm the service is ready, unpaused, uses the required RPC quorum,
+          and does not submit transactions for callers.
+        operationId: getStatus
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.body#/server_submission == false
+        outputs:
+          serviceStatus: $response.body
+      - stepId: readSignedManifest
+        description: >-
+          Read the signed, expiring capability statement. Independently verify
+          its Ed25519 signature with the public key linked by AssetFare before
+          relying on it.
+        operationId: getSignedManifest
+        successCriteria:
+          - condition: $statusCode == 200
+        outputs:
+          signedManifest: $response.body
+      - stepId: requestQuote
+        description: >-
+          Request AssetFare's own route offer. This is not a market-wide route
+          comparison and is not an execution guarantee.
+        operationId: getQuote
+        requestBody:
+          contentType: application/json
+          payload:
+            from_chain: solana
+            from_token: SOL
+            to_chain: $inputs.destinationChain
+            to_token: ETH
+            amount_usd: $inputs.amountUsd
+        successCriteria:
+          - condition: $statusCode == 200
+        outputs:
+          routeOffer: $response.body
+          quoteId: $response.body#/quote_id
+          expectedReceive: $response.body#/offer/expected_receive_amount
+          minimumReceive: $response.body#/offer/estimated_min_receive_amount
+          quoteAsOf: $response.body#/as_of
+          quoteTtlSeconds: $response.body#/ttl_seconds
+    outputs:
+      status: $steps.readStatus.outputs.serviceStatus
+      manifest: $steps.readSignedManifest.outputs.signedManifest
+      quote: $steps.requestQuote.outputs.routeOffer
+    x-assetfare-next-action: >-
+      Compare the quote against fresh fee-inclusive offers from other executable
+      routes. Stop here unless the wallet owner separately approves the
+      non-transactional wallet-authentication message and every later unsigned
+      action.

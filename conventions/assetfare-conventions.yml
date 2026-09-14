@@ -1,0 +1,60 @@
+generated: '2026-09-14'
+method: derived
+source: >-
+  openapi/assetfare-agent-native-route-api-openapi.json + https://assetfare.dev/llms.txt +
+  https://api.assetfare.dev/.well-known/assetfare-manifest.json (all fetched 2026-09-14)
+authentication:
+  style: http-bearer
+  detail: >-
+    Wallet-bound bearer token obtained via a Solana signMessage challenge/verify handshake
+    (/v1/auth/challenge -> /v1/auth/verify). The token is bound to the verified source wallet.
+    Public quote/status/manifest endpoints require no token.
+idempotency:
+  mechanism: body field `idempotency_key`
+  header: null
+  coverage: partial
+  scope:
+    - createSession
+    - verifySourceReceipt
+    - prepareCctpAction
+    - observeCctp
+    - prepareDestinationAction
+    - observeDestination
+  note: >-
+    Six mutating session operations accept a required `idempotency_key` string in the request body
+    (8-128 chars). It is NOT an Idempotency-Key header and is NOT applied to createWalletChallenge,
+    verifyWalletSignature, or prepareSourceAction, so replay protection is scoped to the named
+    execution operations rather than the whole write surface.
+reversibility:
+  grade: none
+  reversal_operation: null
+  window: null
+  na: false
+  note: >-
+    The corridor is a non-atomic three-stage cross-chain settlement
+    (SOL -> Solana USDC -> Circle CCTP burn -> destination smart-account USDC -> Base/Arbitrum ETH).
+    No cancel, refund, void, or reverse operation is published; once the caller signs and submits the
+    CCTP burn there is no reversal path. Recovery is limited to READING state
+    (/v1/session/{id}/workflow and /receipt) to locate assets, not undoing the movement. An agent must
+    treat every signed action as irreversible before it acts. Docs: https://assetfare.dev/llms.txt
+    (Self-service execution / Workflow and recovery).
+pagination:
+  style: none
+  note: No list/collection endpoints; the API is quote-and-session oriented with no paged responses.
+versioning:
+  style: uri-path + info.version
+  detail: All operations under /v1; contract info.version 0.8.2; /v1/status reports api_version and release_commit.
+error_envelope:
+  shape: json object with required `error` string
+  format: plain application/json (not RFC 9457 problem+json)
+  fields: [error, status, retryable, retry_after_seconds, workflow_state, required_workflow_state, next_action, recovery, active_session_release_at]
+  cross_ref: errors/assetfare-problem-types.yml
+rate_limit_signaling:
+  headers: none
+  detail: >-
+    No X-RateLimit-*/RateLimit-*/Retry-After response headers are declared. On 429 the JSON body
+    carries `retry_after_seconds` and `retryable`. See rate-limits/assetfare-rate-limits.yml.
+  cross_ref: rate-limits/assetfare-rate-limits.yml
+request_tracing:
+  request_id: none
+  note: No X-Request-Id / request_id convention documented in the contract.

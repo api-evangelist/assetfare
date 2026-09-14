@@ -1,0 +1,36 @@
+overlay: 1.0.0
+info:
+  title: AssetFare Agent-native Route API — API Evangelist enrichment overlay
+  version: 1.0.0
+extends: ../openapi/assetfare-agent-native-route-api-openapi.json
+x-provenance:
+  generated: '2026-09-14'
+  method: generated
+  source: >-
+    Non-mutating overlay capturing API Evangelist enrichment annotations for the AssetFare route API.
+    Does not alter the original contract; targets are additive.
+actions:
+  - target: $.info
+    description: Annotate the contract with the non-custodial safety posture and agent-readiness cross-links.
+    update:
+      x-agent-safety:
+        custody: non-custodial
+        server_submission: false
+        signs_transactions: false
+        reversibility: none-non-atomic
+        note: >-
+          AssetFare returns bounded unsigned actions only; the caller's agent verifies, signs, and submits
+          every transaction. The cross-chain workflow is non-atomic and irreversible once submitted.
+      x-enrichment-artifacts:
+        conventions: ../conventions/assetfare-conventions.yml
+        errors: ../errors/assetfare-problem-types.yml
+        rate_limits: ../rate-limits/assetfare-rate-limits.yml
+        plans: ../plans/assetfare-plans-pricing.yml
+        mcp: ../mcp/assetfare-mcp.yml
+        tool_crosswalk: ../mcp/assetfare-tool-crosswalk.yml
+        conformance: ../conformance/assetfare-conformance.yml
+  - target: $.paths['/v1/quote'].post
+    description: Flag the public no-auth entry point for agents.
+    update:
+      x-agent-entry-point: true
+      x-requires-auth: false

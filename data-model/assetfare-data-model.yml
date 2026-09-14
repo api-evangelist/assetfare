@@ -1,0 +1,36 @@
+generated: '2026-09-14'
+method: derived
+source: openapi/assetfare-agent-native-route-api-openapi.json components.schemas fetched 2026-09-14
+entities:
+  - name: Quote
+    description: Fee-inclusive route offer for a capped Solana->Base/Arbitrum corridor; expires after ttl_seconds.
+    id_field: quote_id
+  - name: Session
+    description: Wallet-bound execution session created by locking a fresh quote; drives the non-atomic workflow.
+    id_field: session_id
+  - name: UnsignedSourceAction
+    description: A bounded unsigned action returned to the caller's agent to verify, sign, and submit.
+  - name: WalletAuthChallengeRequest
+    description: Request body to create a Solana signMessage challenge (source_wallet).
+  - name: WalletAuthVerifyRequest
+    description: Request body to verify a wallet signature and mint a wallet-bound bearer token.
+  - name: Error
+    description: JSON error envelope (required `error`, plus workflow-state and retry hints).
+relationships:
+  - from: Session
+    to: Quote
+    type: belongs_to
+    via: quote_id
+    note: A session locks exactly one quote.
+  - from: Session
+    to: UnsignedSourceAction
+    type: has_many
+    via: next-action / prepare-* endpoints
+    note: The session yields a sequence of bounded unsigned actions across the source/CCTP/destination stages.
+  - from: Session
+    to: WalletAuthVerifyRequest
+    type: belongs_to
+    via: bearer token (source_wallet binding)
+    note: The verified source wallet from auth/verify binds the session's access token.
+id_prefixes:
+  note: quote_id and session_id are UUIDs (format uuid); wallet identifiers are chain-native (Solana base58 source, 0x-EVM destination owner).

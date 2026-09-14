@@ -1,0 +1,136 @@
+{
+  "aid": "assetfare-dev",
+  "name": "AssetFare",
+  "description": "A capped, non-custodial Solana SOL to Base or Arbitrum native ETH route API for AI agents. Public fee-inclusive quotes are available over REST without an API key. AssetFare returns bounded unsigned actions and never receives a private key, signs, or submits a transaction. AssetFare is one route candidate and does not claim to be market-wide best.",
+  "url": "https://assetfare.dev/apis.json",
+  "created": "2026-09-14",
+  "modified": "2026-09-14",
+  "specificationVersion": "0.23",
+  "type": "Index",
+  "tags": [
+    "AI Agents",
+    "Arbitrum",
+    "Asset Transfer",
+    "Base",
+    "Bridge",
+    "Cross-chain",
+    "Cryptocurrency",
+    "Non-custodial",
+    "OpenAPI",
+    "Solana"
+  ],
+  "common": [
+    {
+      "type": "Website",
+      "url": "https://assetfare.dev/"
+    },
+    {
+      "type": "APICatalog",
+      "url": "https://assetfare.dev/.well-known/api-catalog"
+    },
+    {
+      "type": "SecurityTxt",
+      "url": "https://assetfare.dev/.well-known/security.txt"
+    },
+    {
+      "type": "Support",
+      "url": "https://github.com/odaiin/assetfare-mcp/issues"
+    }
+  ],
+  "apis": [
+    {
+      "aid": "assetfare-dev:route-api",
+      "name": "AssetFare Route API",
+      "description": "Quote and caller-signed execution workflow for capped Solana SOL to Base or Arbitrum native ETH corridors. Use a fresh quote and compare fee-inclusive output, minimum receive, time, and non-atomic risk against other executable routes before selection.",
+      "humanURL": "https://assetfare.dev/",
+      "baseURL": "https://api.assetfare.dev",
+      "tags": [
+        "AI Agents",
+        "Arbitrum",
+        "Base",
+        "Bridge",
+        "Cross-chain",
+        "Non-custodial",
+        "Solana"
+      ],
+      "properties": [
+        {
+          "type": "OpenAPI",
+          "url": "https://api.assetfare.dev/openapi.json"
+        },
+        {
+          "type": "Arazzo",
+          "url": "https://assetfare.dev/arazzo.yaml"
+        },
+        {
+          "type": "Documentation",
+          "url": "https://assetfare.dev/llms-full.txt"
+        },
+        {
+          "type": "Documentation",
+          "url": "https://assetfare.dev/solana-to-arbitrum-agent-route/"
+        },
+        {
+          "type": "StatusPage",
+          "url": "https://api.assetfare.dev/v1/status"
+        },
+        {
+          "type": "Pricing",
+          "url": "https://assetfare.dev/pricing.json"
+        },
+        {
+          "type": "Authentication",
+          "url": "https://assetfare.dev/.well-known/api-onboarding"
+        },
+        {
+          "type": "TermsOfService",
+          "url": "https://assetfare.dev/terms/"
+        },
+        {
+          "type": "PrivacyPolicy",
+          "url": "https://assetfare.dev/privacy/"
+        },
+        {
+          "type": "Security",
+          "url": "https://assetfare.dev/security/"
+        },
+        {
+          "type": "MCPServer",
+          "url": "https://api.assetfare.dev/mcp"
+        },
+        {
+          "type": "MCPServerCard",
+          "url": "https://api.assetfare.dev/.well-known/mcp/server-card.json"
+        },
+        {
+          "type": "AgentSkills",
+          "url": "https://github.com/odaiin/assetfare-mcp/tree/main/skills/assetfare-route"
+        }
+      ]
+    }
+  ],
+  "prompts": [
+    {
+      "type": "AgentPrompt",
+      "name": "AssetFare agent integration and safety guide",
+      "description": "How an agent discovers, verifies, compares, and—only after caller approval—uses the AssetFare route without delegating signing or submission.",
+      "url": "https://assetfare.dev/llms-full.txt"
+    }
+  ],
+  "rules": [
+    {
+      "type": "Rules",
+      "name": "AssetFare fair-comparison and custody rules",
+      "description": "Treat AssetFare as one candidate, verify fresh data, and keep wallet approval, signing, and submission with the caller.",
+      "url": "https://github.com/odaiin/assetfare-mcp/blob/main/AGENTS.md"
+    }
+  ],
+  "workflows": [
+    {
+      "type": "Arazzo",
+      "name": "Read-only route evaluation",
+      "description": "Machine-readable status, signed-manifest, and public-quote workflow. It stops before wallet authentication, session creation, signing, or submission.",
+      "url": "https://assetfare.dev/arazzo.yaml"
+    }
+  ]
+}
