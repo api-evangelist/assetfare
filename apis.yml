@@ -11,6 +11,18 @@ tags:
 - AI Agents
 - Asset Transfer
 - Bridge
+- Cross-Chain
+- Non-Custodial
+- Cryptocurrency
+- Solana
+- Base
+- OpenAPI
+- MCP
+- Agent Skills
+tags_raw:
+- AI Agents
+- Asset Transfer
+- Bridge
 - Cross-chain
 - Non-custodial
 - Cryptocurrency
@@ -20,41 +32,168 @@ tags:
 - MCP
 - Agent Skills
 apis:
-- name: AssetFare Agent-native Route API
-  description: Public REST API for the solana:SOL -> base:ETH corridor. Public no-auth quote/status/manifest endpoints plus
-    bearer-protected session and execution workflow. Includes hosted MCP server, llms.txt agent guide, Arazzo workflow, and
-    a published agent skill.
+- aid: assetfare:assetfare-auth-api
+  name: AssetFare Auth API
+  description: The Auth API from AssetFare — 2 operation(s) for auth.
   humanURL: https://assetfare.dev/solana-to-base-agent-route/
   baseURL: https://api.assetfare.dev
   tags:
-  - AI Agents
-  - Asset Transfer
-  - Bridge
-  - Cross-chain
-  - Non-custodial
-  - Cryptocurrency
-  - Solana
-  - Base
-  - OpenAPI
-  - MCP
-  - Agent Skills
+  - Auth
   properties:
   - type: OpenAPI
-    url: openapi/assetfare-agent-native-route-api-openapi.json
+    url: openapi/assetfare-auth-api-openapi.yml
   - type: Documentation
     url: https://assetfare.dev/solana-to-base-agent-route/
   - type: APIReference
     url: https://api.assetfare.dev/openapi.json
   - type: LLMsTxt
     url: llms/assetfare-llms.txt
-  - type: MCPServer
-    url: https://api.assetfare.dev/mcp
   - type: ToolCrosswalk
     url: mcp/assetfare-tool-crosswalk.yml
-  - type: AgentSkill
-    url: https://github.com/odaiin/assetfare-mcp/blob/main/skills/assetfare-route/SKILL.md
-  - type: Overlay
-    url: overlays/assetfare-agent-native-route-api-overlay.yaml
+  - type: ErrorCatalog
+    url: errors/assetfare-problem-types.yml
+  - type: Conventions
+    url: conventions/assetfare-conventions.yml
+  - type: Idempotency
+    url: conventions/assetfare-conventions.yml
+  - type: DataModel
+    url: data-model/assetfare-data-model.yml
+  - type: Conformance
+    url: conformance/assetfare-conformance.yml
+  - type: Plans
+    url: plans/assetfare-plans-pricing.yml
+  - type: RateLimits
+    url: rate-limits/assetfare-rate-limits.yml
+  - type: Lifecycle
+    url: lifecycle/assetfare-lifecycle.yml
+  - type: StatusPage
+    url: https://api.assetfare.dev/v1/status
+- aid: assetfare:assetfare-quote-api
+  name: AssetFare Quote API
+  description: The Quote API from AssetFare — 1 operation(s) for quote.
+  humanURL: https://assetfare.dev/solana-to-base-agent-route/
+  baseURL: https://api.assetfare.dev
+  tags:
+  - Quote
+  properties:
+  - type: OpenAPI
+    url: openapi/assetfare-quote-api-openapi.yml
+  - type: Documentation
+    url: https://assetfare.dev/solana-to-base-agent-route/
+  - type: APIReference
+    url: https://api.assetfare.dev/openapi.json
+  - type: LLMsTxt
+    url: llms/assetfare-llms.txt
+  - type: ToolCrosswalk
+    url: mcp/assetfare-tool-crosswalk.yml
+  - type: ErrorCatalog
+    url: errors/assetfare-problem-types.yml
+  - type: Conventions
+    url: conventions/assetfare-conventions.yml
+  - type: Idempotency
+    url: conventions/assetfare-conventions.yml
+  - type: DataModel
+    url: data-model/assetfare-data-model.yml
+  - type: Conformance
+    url: conformance/assetfare-conformance.yml
+  - type: Plans
+    url: plans/assetfare-plans-pricing.yml
+  - type: RateLimits
+    url: rate-limits/assetfare-rate-limits.yml
+  - type: Lifecycle
+    url: lifecycle/assetfare-lifecycle.yml
+  - type: StatusPage
+    url: https://api.assetfare.dev/v1/status
+- aid: assetfare:assetfare-session-api
+  name: AssetFare Session API
+  description: The Session API from AssetFare — 11 operation(s) for session.
+  humanURL: https://assetfare.dev/solana-to-base-agent-route/
+  baseURL: https://api.assetfare.dev
+  tags:
+  - Session
+  properties:
+  - type: OpenAPI
+    url: openapi/assetfare-session-api-openapi.yml
+  - type: Documentation
+    url: https://assetfare.dev/solana-to-base-agent-route/
+  - type: APIReference
+    url: https://api.assetfare.dev/openapi.json
+  - type: LLMsTxt
+    url: llms/assetfare-llms.txt
+  - type: ToolCrosswalk
+    url: mcp/assetfare-tool-crosswalk.yml
+  - type: ErrorCatalog
+    url: errors/assetfare-problem-types.yml
+  - type: Conventions
+    url: conventions/assetfare-conventions.yml
+  - type: Idempotency
+    url: conventions/assetfare-conventions.yml
+  - type: DataModel
+    url: data-model/assetfare-data-model.yml
+  - type: Conformance
+    url: conformance/assetfare-conformance.yml
+  - type: Plans
+    url: plans/assetfare-plans-pricing.yml
+  - type: RateLimits
+    url: rate-limits/assetfare-rate-limits.yml
+  - type: Lifecycle
+    url: lifecycle/assetfare-lifecycle.yml
+  - type: StatusPage
+    url: https://api.assetfare.dev/v1/status
+- aid: assetfare:assetfare-status-api
+  name: AssetFare Status API
+  description: The Status API from AssetFare — 1 operation(s) for status.
+  humanURL: https://assetfare.dev/solana-to-base-agent-route/
+  baseURL: https://api.assetfare.dev
+  tags:
+  - Status
+  properties:
+  - type: OpenAPI
+    url: openapi/assetfare-status-api-openapi.yml
+  - type: Documentation
+    url: https://assetfare.dev/solana-to-base-agent-route/
+  - type: APIReference
+    url: https://api.assetfare.dev/openapi.json
+  - type: LLMsTxt
+    url: llms/assetfare-llms.txt
+  - type: ToolCrosswalk
+    url: mcp/assetfare-tool-crosswalk.yml
+  - type: ErrorCatalog
+    url: errors/assetfare-problem-types.yml
+  - type: Conventions
+    url: conventions/assetfare-conventions.yml
+  - type: Idempotency
+    url: conventions/assetfare-conventions.yml
+  - type: DataModel
+    url: data-model/assetfare-data-model.yml
+  - type: Conformance
+    url: conformance/assetfare-conformance.yml
+  - type: Plans
+    url: plans/assetfare-plans-pricing.yml
+  - type: RateLimits
+    url: rate-limits/assetfare-rate-limits.yml
+  - type: Lifecycle
+    url: lifecycle/assetfare-lifecycle.yml
+  - type: StatusPage
+    url: https://api.assetfare.dev/v1/status
+- aid: assetfare:assetfare-well-known-api
+  name: AssetFare .well Known API
+  description: The .well Known API from AssetFare — 1 operation(s) for .well known.
+  humanURL: https://assetfare.dev/solana-to-base-agent-route/
+  baseURL: https://api.assetfare.dev
+  tags:
+  - .well Known
+  properties:
+  - type: OpenAPI
+    url: openapi/assetfare-well-known-api-openapi.yml
+  - type: Documentation
+    url: https://assetfare.dev/solana-to-base-agent-route/
+  - type: APIReference
+    url: https://api.assetfare.dev/openapi.json
+  - type: LLMsTxt
+    url: llms/assetfare-llms.txt
+  - type: ToolCrosswalk
+    url: mcp/assetfare-tool-crosswalk.yml
   - type: ErrorCatalog
     url: errors/assetfare-problem-types.yml
   - type: Conventions
@@ -78,6 +217,12 @@ maintainers:
   url: https://github.com/odaiin/assetfare-mcp
   email: support@assetfare.dev
 common:
+- type: MCPServer
+  url: https://api.assetfare.dev/mcp
+- type: AgentSkill
+  url: https://github.com/odaiin/assetfare-mcp/blob/main/skills/assetfare-route/SKILL.md
+- type: Overlay
+  url: overlays/assetfare-agent-native-route-api-overlay.yaml
 - type: DomainSecurity
   url: security/assetfare-domain-security.yml
 - type: VulnerabilityDisclosure
