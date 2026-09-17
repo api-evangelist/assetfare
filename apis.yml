@@ -1,11 +1,11 @@
 name: AssetFare
-description: A capped, non-custodial routing API for a single corridor — Solana SOL to Base native ETH — aimed at AI agents.
-  It returns fee-inclusive quotes and bounded unsigned actions; the caller's agent verifies, signs, and submits every transaction.
-  AssetFare never receives private keys and never signs or submits, framing itself as one route candidate rather than a market-wide
-  best-price aggregator.
+description: A capped, non-custodial route API for AI agents across Solana, Base, Arbitrum, and Robinhood Chain. The public v2
+  surface quotes 72 directed routes among nine asset endpoints from $1 through $1,000. Later workflow steps return bounded unsigned
+  actions that callers verify, sign, and submit. AssetFare never receives private keys, signs, or submits, and is one route
+  candidate rather than a market-wide best-price aggregator.
 url: https://raw.githubusercontent.com/api-evangelist/assetfare/refs/heads/main/apis.yml
 created: '2026-09-14'
-modified: '2026-09-14'
+modified: '2026-09-17'
 specificationVersion: '0.21'
 tags:
 - AI Agents
@@ -16,7 +16,10 @@ tags:
 - Cryptocurrency
 - Solana
 - Base
+- Arbitrum
+- Robinhood Chain
 - OpenAPI
+- A2A
 - MCP
 - Agent Skills
 tags_raw:
@@ -28,10 +31,33 @@ tags_raw:
 - Cryptocurrency
 - Solana
 - Base
+- Arbitrum
+- Robinhood Chain
 - OpenAPI
+- A2A
 - MCP
 - Agent Skills
 apis:
+- aid: assetfare:assetfare-four-chain-v2-api
+  name: AssetFare Four-chain Agent API v2
+  description: Public fee-inclusive quotes and bounded unsigned actions that callers verify, sign, and submit across nine asset
+    endpoints on Solana, Base, Arbitrum, and Robinhood Chain. The server never signs or submits.
+  humanURL: https://assetfare.dev/
+  baseURL: https://api.assetfare.dev
+  tags:
+  - Quote
+  - Bridge
+  - Swap
+  - AI Agents
+  properties:
+  - type: OpenAPI
+    url: openapi/assetfare-four-chain-v2-openapi.json
+  - type: Documentation
+    url: https://assetfare.dev/llms-full.txt
+  - type: LLMsTxt
+    url: llms/assetfare-llms.txt
+  - type: StatusPage
+    url: https://api.assetfare.dev/v2/status
 - aid: assetfare:assetfare-auth-api
   name: AssetFare Auth API
   description: The Auth API from AssetFare — 2 operation(s) for auth.
