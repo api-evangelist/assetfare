@@ -38,6 +38,8 @@ apis:
   humanURL: https://assetfare.dev/solana-to-base-agent-route/
   baseURL: https://api.assetfare.dev
   tags:
+  - Authentication
+  tags_raw:
   - Auth
   properties:
   - type: OpenAPI
@@ -74,6 +76,8 @@ apis:
   humanURL: https://assetfare.dev/solana-to-base-agent-route/
   baseURL: https://api.assetfare.dev
   tags:
+  - Quotes
+  tags_raw:
   - Quote
   properties:
   - type: OpenAPI
@@ -110,6 +114,8 @@ apis:
   humanURL: https://assetfare.dev/solana-to-base-agent-route/
   baseURL: https://api.assetfare.dev
   tags:
+  - Sessions
+  tags_raw:
   - Session
   properties:
   - type: OpenAPI
