@@ -1,0 +1,29 @@
+# Front Door AI Index — assetfare — 2026-09-17
+# AI vocabulary counted on the provider's root page. Generated; do not edit.
+# `score` is null unless ownership is `own` — see front_door_ai.py.
+front_door_ai:
+  slug: assetfare
+  lexicon_version: '1.0'
+  probed_at: '2026-09-17'
+  host: assetfare.dev
+  final_host: assetfare.dev
+  ownership: own
+  owner: assetfare
+  shares_host_with: null
+  inherited_from: null
+  verdict: scored
+  score: 15
+  host_score: 15
+  density: 13.51
+  words: 1110
+  tiers:
+    agentic: 11
+    core: 4
+    model: 0
+  ambiguous: 18
+  top_terms:
+    agent: 18
+    MCP: 6
+    AI agent: 4
+    AI: 4
+    agentic: 1

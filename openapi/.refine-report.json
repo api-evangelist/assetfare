@@ -1,0 +1,49 @@
+{
+  "provider": "assetfare",
+  "sources": [
+    "_original/assetfare-openapi.json"
+  ],
+  "outputs": [
+    "assetfare-well-known-api-openapi.yml",
+    "assetfare-auth-api-openapi.yml",
+    "assetfare-quote-api-openapi.yml",
+    "assetfare-session-api-openapi.yml",
+    "assetfare-status-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "assetfare-openapi.json: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "assetfare-openapi.json: tagged paths GET /.well-known/assetfare-manifest.json -> .well Known",
+    "assetfare-openapi.json: tagged paths POST /v1/auth/challenge -> Auth",
+    "assetfare-openapi.json: tagged paths POST /v1/auth/verify -> Auth",
+    "assetfare-openapi.json: tagged paths POST /v1/quote -> Quote",
+    "assetfare-openapi.json: tagged paths POST /v1/session -> Session",
+    "assetfare-openapi.json: tagged paths GET /v1/session/{session_id} -> Session",
+    "assetfare-openapi.json: tagged paths GET /v1/session/{session_id}/next-action -> Session",
+    "assetfare-openapi.json: tagged paths POST /v1/session/{session_id}/observe-cctp -> Session",
+    "assetfare-openapi.json: tagged paths POST /v1/session/{session_id}/observe-destination -> Session",
+    "assetfare-openapi.json: tagged paths POST /v1/session/{session_id}/prepare-cctp-action -> Session",
+    "assetfare-openapi.json: tagged paths POST /v1/session/{session_id}/prepare-destination-action -> Session",
+    "assetfare-openapi.json: tagged paths POST /v1/session/{session_id}/prepare-source-action -> Session",
+    "assetfare-openapi.json: tagged paths GET /v1/session/{session_id}/receipt -> Session",
+    "assetfare-openapi.json: tagged paths POST /v1/session/{session_id}/verify-source -> Session",
+    "assetfare-openapi.json: tagged paths GET /v1/session/{session_id}/workflow -> Session",
+    "assetfare-openapi.json: tagged paths GET /v1/status -> Status",
+    "assetfare-openapi.json: declared missing tag: .well Known",
+    "assetfare-openapi.json: declared missing tag: Auth",
+    "assetfare-openapi.json: declared missing tag: Quote",
+    "assetfare-openapi.json: declared missing tag: Session",
+    "assetfare-openapi.json: declared missing tag: Status",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "assetfare-auth-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "assetfare-quote-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "assetfare-session-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "assetfare-status-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "assetfare-well-known-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
+}

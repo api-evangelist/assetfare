@@ -1,0 +1,220 @@
+openapi: 3.2.0
+info:
+  contact:
+    email: support@assetfare.dev
+    name: AssetFare support
+    url: https://assetfare.dev/security/
+  description: Public fee-inclusive quotes for two capped Solana-origin corridors. Wallet-signed self-service execution is available only when the runtime launch gates are enabled. AssetFare returns bounded unsigned actions; the user's agent verifies, signs, and submits every transaction. AssetFare never receives private keys and never submits transactions. The three-stage cross-chain workflow is non-atomic.
+  termsOfService: https://assetfare.dev/terms/
+  title: AssetFare Agent-native Route Auth API
+  version: 0.8.2
+servers:
+- description: AssetFare API
+  url: https://api.assetfare.dev
+tags:
+- name: Auth
+paths:
+  /v1/auth/challenge:
+    post:
+      description: The challenge message authorizes no transaction, approval, or transfer. Availability is controlled by the public-demand-validation launch gates.
+      operationId: createWalletChallenge
+      requestBody:
+        content:
+          application/json:
+            examples:
+              wallet_login:
+                value:
+                  source_wallet: ExampleSolanaPublicKeyOnly1111111111111111111111111
+            schema:
+              additionalProperties: false
+              properties:
+                source_wallet:
+                  description: Solana public key. The returned message must be signed with this wallet's Ed25519 signMessage capability.
+                  type: string
+              required:
+              - source_wallet
+              type: object
+        required: true
+      responses:
+        '201':
+          description: Wallet challenge
+        '400':
+          description: Invalid public wallet
+        '429':
+          content:
+            application/json:
+              example:
+                error: wallet_challenge_limit_reached
+                retry_after_seconds: 300
+              schema:
+                additionalProperties: true
+                properties:
+                  active_session_release_at:
+                    format: date-time
+                    type:
+                    - string
+                    - 'null'
+                  error:
+                    type: string
+                  next_action:
+                    type: string
+                  recovery:
+                    type: object
+                  required_workflow_state:
+                    type: string
+                  retry_after_seconds:
+                    minimum: 1
+                    type: integer
+                  retryable:
+                    type: boolean
+                  status:
+                    type: string
+                  workflow_state:
+                    type: string
+                required:
+                - error
+                type: object
+          description: Authentication rate or live-challenge limit exceeded
+        '503':
+          description: Self-service authentication is not enabled
+      summary: Request a wallet-signable self-service authentication challenge
+      tags:
+      - Auth
+  /v1/auth/verify:
+    post:
+      description: Feature-gated during implementation. A verified login rotates any prior AssetFare token for the same wallet.
+      operationId: verifyWalletSignature
+      requestBody:
+        content:
+          application/json:
+            examples:
+              signed_message:
+                summary: Use the exact challenge message; never sign a transaction here
+                value:
+                  challenge_id: 00000000-0000-4000-8000-000000000000
+                  signature: base58_signature_from_signMessage
+                  source_wallet: ExampleSolanaPublicKeyOnly1111111111111111111111111
+                  terms_version: 2026-09-14-public-demand-validation-draft
+            schema:
+              additionalProperties: false
+              properties:
+                challenge_id:
+                  format: uuid
+                  type: string
+                signature:
+                  description: Base58-encoded 64-byte Ed25519 signature of the exact challenge message
+                  type: string
+                source_wallet:
+                  type: string
+                terms_version:
+                  type: string
+              required:
+              - challenge_id
+              - source_wallet
+              - signature
+              - terms_version
+              type: object
+        required: true
+      responses:
+        '201':
+          description: One-time access token response
+        '400':
+          content:
+            application/json:
+              example:
+                error: terms_version_mismatch
+              schema:
+                additionalProperties: true
+                properties:
+                  active_session_release_at:
+                    format: date-time
+                    type:
+                    - string
+                    - 'null'
+                  error:
+                    type: string
+                  next_action:
+                    type: string
+                  recovery:
+                    type: object
+                  required_workflow_state:
+                    type: string
+                  retry_after_seconds:
+                    minimum: 1
+                    type: integer
+                  retryable:
+                    type: boolean
+                  status:
+                    type: string
+                  workflow_state:
+                    type: string
+                required:
+                - error
+                type: object
+          description: Invalid or expired challenge/signature
+        '429':
+          description: Authentication rate limited
+        '503':
+          description: Self-service authentication is not enabled
+      summary: Verify a Solana wallet signature and issue a wallet-bound session token
+      tags:
+      - Auth
+components:
+  securitySchemes:
+    bearerAuth:
+      description: Revocable wallet-bound credential required for session endpoints
+      scheme: bearer
+      type: http
+externalDocs:
+  description: Agent route skill, MCP endpoint, signed manifest, and verification material
+  url: https://assetfare.dev/.well-known/assetfare.json
+x-assetfare-access:
+  execution: wallet_signed_public_demand_validation
+  quotes: public
+  self_service_credentials: true
+x-assetfare-error-catalog:
+  destination_action_expired_reprepare_required: 410
+  source_action_expired_new_quote_session_required: 410
+  tenant_active_session_limit: 409
+  workflow_state_requires_cctp_action: 409
+  workflow_state_requires_destination_action: 409
+  workflow_state_requires_destination_funds: 409
+  workflow_state_requires_quote_locked: 409
+  workflow_state_requires_source_action: 409
+  workflow_state_requires_source_receipt: 409
+x-assetfare-pricing:
+  collection: destination_atomic_batch_success_only
+  execution_fee_bps: 1
+  execution_fee_cap_usdc: 5
+  public_quote_usd: 0
+  url: https://assetfare.dev/pricing.json
+x-assetfare-rate-limits:
+  cache_hits: not charged against the expensive-miss budget
+  expensive_quote_cache_misses: 3 per source IP and 20 globally per 60 seconds
+  quote_cache_ttl_seconds: 20
+x-assetfare-self-service:
+  authentication: Solana Ed25519 signMessage
+  login_authorizes_transaction: false
+  max_live_challenges_per_wallet: 5
+  privacy_url: https://assetfare.dev/privacy
+  status: enabled_capped_demand_validation
+  terms_url: https://assetfare.dev/terms
+  wallet_binding: session token is bound to the verified source wallet
+x-assetfare-session-policy:
+  active_after_funding_release: workflow completion or operator recovery
+  active_before_funding_release: quote expiry or prepared source-action expiry
+  max_active_sessions_per_tenant: 1
+  tenant_active_session_limit_response: HTTP 409 with retryable, retry_after_seconds, and active_session_release_at when automatic release is known
+x-assetfare-supported-corridors:
+- amount_usd:
+    maximum: 1000
+    minimum: 250
+    whole_dollars: true
+  from: solana:SOL
+  to: base:ETH
+- amount_usd:
+    maximum: 1000
+    minimum: 250
+    whole_dollars: true
+  from: solana:SOL
+  to: arbitrum:ETH
