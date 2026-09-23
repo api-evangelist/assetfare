@@ -1,6 +1,6 @@
 # assetfare
 
-A capped, non-custodial routing API for a single corridor — Solana SOL to Base native ETH — aimed at AI agents. It returns fee-inclusive quotes and bounded unsigned actions; the caller's agent verifies, signs, and submits every transaction. AssetFare never receives private keys and never signs or submits, framing itself as one route candidate rather than a market-wide best-price aggregator.
+Non-custodial cross-chain bridge and swap quote API for AI agents across six chains, including Solana to Base USDC. AssetFare service fee 1bp; Circle/provider/network fees additional; each quote exposes total token-path cost and live availability. Returns unsigned actions only — the caller verifies, signs, and submits; AssetFare never signs or submits.
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
