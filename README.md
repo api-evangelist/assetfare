@@ -1,6 +1,6 @@
 # assetfare
 
-Non-custodial cross-chain bridge and swap quote API for AI agents across six chains, including Solana to Base USDC. AssetFare service fee 1bp; Circle/provider/network fees additional; each quote exposes total token-path cost and live availability. Returns unsigned actions only — the caller verifies, signs, and submits; AssetFare never signs or submits.
+Agent-native, non-custodial native-USDC bridge and cross-chain quote API across six chains. The canonical route is Solana native USDC to Base native USDC with a caller-approved unsigned plan. AssetFare service fee 1bp; Circle/provider/network fees additional; each quote exposes total token-path cost and live availability. The caller verifies, signs, and submits; AssetFare never signs or submits.
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository

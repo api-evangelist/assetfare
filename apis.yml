@@ -1,8 +1,9 @@
 name: AssetFare
-description: Non-custodial cross-chain bridge and swap quote API for AI agents across six chains,
-  including Solana to Base USDC. AssetFare service fee 1bp; Circle/provider/network fees additional;
-  each quote exposes total token-path cost and live availability. Returns unsigned actions only — the
-  caller verifies, signs, and submits; AssetFare never signs or submits.
+description: Agent-native, non-custodial native-USDC bridge and cross-chain quote API across six
+  chains. The canonical route is Solana native USDC to Base native USDC with a caller-approved
+  unsigned plan. AssetFare service fee 1bp; Circle/provider/network fees additional; each quote
+  exposes total token-path cost and live availability. The caller verifies, signs, and submits;
+  AssetFare never signs or submits.
 url: https://raw.githubusercontent.com/api-evangelist/assetfare/refs/heads/main/apis.yml
 created: '2026-09-14'
 modified: '2026-09-23'
@@ -22,6 +23,8 @@ tags:
 - Polygon
 - Optimism
 - USDC
+- Native USDC
+- Unsigned Transaction Plans
 - OpenAPI
 - MCP
 - Agent Skills
@@ -40,6 +43,8 @@ tags_raw:
 - Polygon
 - Optimism
 - USDC
+- Native USDC
+- Unsigned transaction plans
 - OpenAPI
 - MCP
 - Agent Skills
@@ -86,7 +91,8 @@ apis:
   name: AssetFare Six-chain Agent Route API
   description: Public fee-inclusive quotes and caller-approved unsigned actions across Solana, Base,
     Arbitrum, Robinhood Chain, and Polygon/Optimism native-USDC source-only corridors — 11 source
-    endpoints and 76 directed routes, USD 1 to 1,000 per route. AssetFare service fee 1bp;
+    endpoints and 76 directed routes, with a USD 1 minimum and no business maximum. The canonical
+    route is Solana native USDC to Base native USDC. AssetFare service fee 1bp;
     Circle/provider/network fees additional; each quote exposes total token-path cost and live
     availability.
   humanURL: https://assetfare.dev/
@@ -269,14 +275,14 @@ apis:
   - type: StatusPage
     url: https://api.assetfare.dev/v1/status
 maintainers:
-- FN: odaiin
-  url: https://github.com/odaiin/assetfare-mcp
+- FN: AssetFare
+  url: https://github.com/assetfare/assetfare-mcp
   email: support@assetfare.dev
 common:
 - type: MCPServer
   url: https://api.assetfare.dev/mcp
 - type: AgentSkill
-  url: https://github.com/odaiin/assetfare-mcp/blob/main/skills/assetfare-route/SKILL.md
+  url: https://github.com/assetfare/assetfare-mcp/blob/main/skills/assetfare-route/SKILL.md
 - type: Overlay
   url: overlays/assetfare-agent-native-route-api-overlay.yaml
 - type: DomainSecurity
@@ -304,7 +310,7 @@ common:
 - type: PrivacyPolicy
   url: https://assetfare.dev/privacy/
 - type: SourceCode
-  url: https://github.com/odaiin/assetfare-mcp
+  url: https://github.com/assetfare/assetfare-mcp
 - type: Website
   url: https://assetfare.dev/
 - type: GettingStarted
