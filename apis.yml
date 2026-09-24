@@ -3,10 +3,12 @@ description: Agent-native, non-custodial native-USDC bridge and cross-chain quot
   chains. The canonical route is Solana native USDC to Base native USDC with a caller-approved
   unsigned plan. AssetFare service fee 1bp; Circle/provider/network fees additional; each quote
   exposes total token-path cost and live availability. The caller verifies, signs, and submits;
-  AssetFare never signs or submits.
+  AssetFare never signs or submits. USD 1 is reachability/schema smoke only; USD 1,000 is the
+  primary representative amount, and candidates should always be freshly compared at the intended
+  amount. Native-USDC economic comparison starts at a dated, non-guaranteed USD 50 observation.
 url: https://raw.githubusercontent.com/api-evangelist/assetfare/refs/heads/main/apis.yml
 created: '2026-09-14'
-modified: '2026-09-23'
+modified: '2026-09-24'
 specificationVersion: '0.21'
 tags:
 - AI Agents
@@ -94,7 +96,10 @@ apis:
     endpoints and 76 directed routes, with a USD 1 minimum and no business maximum. The canonical
     route is Solana native USDC to Base native USDC. AssetFare service fee 1bp;
     Circle/provider/network fees additional; each quote exposes total token-path cost and live
-    availability.
+    availability. USD 1 is reachability/schema smoke only. Based on dated 2026-09-23 observations,
+    start native-USDC economic comparison at USD 50 without assuming AssetFare is cheapest; use USD
+    1,000 as the primary representative amount and always compare fresh candidates at the actual
+    intended amount.
   humanURL: https://assetfare.dev/
   baseURL: https://api.assetfare.dev
   tags:
