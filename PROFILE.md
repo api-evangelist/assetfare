@@ -2,6 +2,8 @@
 
 Agent-native, non-custodial native-USDC bridge and cross-chain quote API across six chains. The canonical route is Solana native USDC to Base native USDC with a caller-approved unsigned plan. AssetFare service fee 1bp; Circle/provider/network fees additional; each quote exposes total token-path cost and live availability. The caller verifies, signs, and submits; AssetFare never signs or submits.
 
+Every v2 quote also exposes `direct_route_summary`: a validated, intent-bound ordered provider path with exact base-unit bounds and the AssetFare fee step; `external_intent` identifies Across Robinhood ingress, where provider-internal liquidity sourcing may remain possible.
+
 For economic evaluation, USD 1,000 is the primary representative amount and every candidate should be requoted at the actual intended amount. The USD 1 API minimum is for reachability/schema smoke only. For native-USDC routes, USD 50 is a reasonable comparison starting point based on dated 2026-09-23 observations, not a guarantee that AssetFare is cheapest. There is no business maximum, although live liquidity, protocol, balance, and capacity constraints still apply.
 
 - **Provider:** https://assetfare.dev
@@ -14,7 +16,7 @@ For economic evaluation, USD 1,000 is the primary representative amount and ever
 
 ## APIs
 
-- **AssetFare Six-chain Agent Route API** — Public REST API covering 11 source endpoints and 76 directed routes across Solana, Base, Arbitrum, Robinhood Chain, and Polygon/Optimism native-USDC source-only corridors, including solana:USDC -> base:USDC. Public no-auth quote/capabilities/status/manifest endpoints plus caller-approved unsigned prepare and session workflows. Includes hosted MCP server, A2A agent card, llms.txt agent guide, Arazzo workflow, and a published agent skill. (`https://api.assetfare.dev`)
+- **AssetFare Six-chain Agent Route API** — Public REST API covering 11 source endpoints and 76 directed routes across Solana, Base, Arbitrum, Robinhood Chain, and Polygon/Optimism native-USDC source-only corridors, including solana:USDC -> base:USDC. Every v2 quote includes a validated `direct_route_summary` ordered provider path. Public no-auth quote/capabilities/status/manifest endpoints plus caller-approved unsigned prepare and session workflows. Includes hosted MCP server, A2A agent card, llms.txt agent guide, Arazzo workflow, and a published agent skill. (`https://api.assetfare.dev`)
 
 > OpenAPI 3.1, status endpoint, MCP server card, and Arazzo workflow all confirmed live from assetfare.dev/api.assetfare.dev. Hosted MCP server at https://api.assetfare.dev/mcp (auth not required) is publicly reachable; canonical MCP source is github.com/assetfare/assetfare-mcp. An Arazzo 1.1.0 workflow is served at https://assetfare.dev/apis.json / arazzo.yaml but there is no dedicated Arazzo property type in the schema. https://assetfare.dev/llms.txt, https://assetfare.dev/llms-full.txt and the GitHub-rendered SKILL.md/AGENTS.md all resolve. No GraphQL, AsyncAPI, or Postman collection advertised. No published subscription tiers; the amount policy is a $1 minimum with no business maximum, subject to live liquidity, protocol, balance and capacity constraints. Use $1 only for reachability/schema smoke, start native-USDC economic evaluation at the dated, non-guaranteed $50 comparison point, use $1,000 as the primary representative amount, and always compare fresh routes at the intended amount.
 
