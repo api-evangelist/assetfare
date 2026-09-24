@@ -1,21 +1,35 @@
 name: AssetFare
-description: A capped, non-custodial routing API for a single corridor — Solana SOL to Base native ETH — aimed at AI agents.
-  It returns fee-inclusive quotes and bounded unsigned actions; the caller's agent verifies, signs, and submits every transaction.
-  AssetFare never receives private keys and never signs or submits, framing itself as one route candidate rather than a market-wide
-  best-price aggregator.
+description: Agent-native, non-custodial native-USDC bridge and cross-chain quote API across six
+  chains. The canonical route is Solana native USDC to Base native USDC with a caller-approved
+  unsigned plan. AssetFare service fee 1bp; Circle/provider/network fees additional; each quote
+  exposes total token-path cost and live availability. The caller verifies, signs, and submits;
+  AssetFare never signs or submits. Every v2 quote includes a validated, intent-bound
+  direct_route_summary ordered provider path with exact base-unit bounds and the AssetFare fee step;
+  external_intent identifies Across Robinhood ingress, where provider-internal liquidity sourcing
+  may remain possible. USD 1 is reachability/schema smoke only; USD 1,000 is the primary
+  representative amount, and candidates should always be freshly compared at the intended amount.
+  Native-USDC economic comparison starts at a dated, non-guaranteed USD 50 observation.
 url: https://raw.githubusercontent.com/api-evangelist/assetfare/refs/heads/main/apis.yml
 created: '2026-09-14'
-modified: '2026-09-14'
+modified: '2026-09-24'
 specificationVersion: '0.21'
 tags:
 - AI Agents
 - Asset Transfer
 - Bridge
+- Swap
 - Cross-Chain
 - Non-Custodial
 - Cryptocurrency
 - Solana
 - Base
+- Arbitrum
+- Robinhood Chain
+- Polygon
+- Optimism
+- USDC
+- Native USDC
+- Unsigned Transaction Plans
 - OpenAPI
 - MCP
 - Agent Skills
@@ -23,11 +37,19 @@ tags_raw:
 - AI Agents
 - Asset Transfer
 - Bridge
+- Swap
 - Cross-chain
 - Non-custodial
 - Cryptocurrency
 - Solana
 - Base
+- Arbitrum
+- Robinhood Chain
+- Polygon
+- Optimism
+- USDC
+- Native USDC
+- Unsigned transaction plans
 - OpenAPI
 - MCP
 - Agent Skills
@@ -70,6 +92,50 @@ apis:
     url: lifecycle/assetfare-lifecycle.yml
   - type: StatusPage
     url: https://api.assetfare.dev/v1/status
+- aid: assetfare:assetfare-multichain-route-api-v2
+  name: AssetFare Six-chain Agent Route API
+  description: Public fee-inclusive quotes and caller-approved unsigned actions across Solana, Base,
+    Arbitrum, Robinhood Chain, and Polygon/Optimism native-USDC source-only corridors — 11 source
+    endpoints and 76 directed routes, with a USD 1 minimum and no business maximum. The canonical
+    route is Solana native USDC to Base native USDC. AssetFare service fee 1bp;
+    Circle/provider/network fees additional; each quote exposes total token-path cost and live
+    availability plus a validated, intent-bound direct_route_summary ordered provider path, exact
+    base-unit bounds, and the AssetFare fee step. external_intent identifies Across Robinhood
+    ingress, where provider-internal liquidity sourcing may remain possible. USD 1 is
+    reachability/schema smoke only. Based on dated 2026-09-23 observations, start native-USDC
+    economic comparison at USD 50 without assuming AssetFare is cheapest; use USD 1,000 as the
+    primary representative amount and always compare fresh candidates at the actual intended amount.
+  humanURL: https://assetfare.dev/
+  baseURL: https://api.assetfare.dev
+  tags:
+  - Quotes
+  - Bridge
+  - Swap
+  - Cross-Chain
+  tags_raw:
+  - Quote
+  - Bridge
+  - Swap
+  - Cross-chain
+  properties:
+  - type: OpenAPI
+    url: https://api.assetfare.dev/v2/openapi.json
+  - type: OpenAPI
+    url: https://assetfare.dev/openapi-quote-only.json
+  - type: Documentation
+    url: https://api.assetfare.dev/v2/capabilities
+  - type: Documentation
+    url: https://assetfare.dev/llms-full.txt
+  - type: LLMsTxt
+    url: https://assetfare.dev/llms.txt
+  - type: GettingStarted
+    url: https://assetfare.dev/pilot/
+  - type: Plans
+    url: https://assetfare.dev/pricing.json
+  - type: WellKnown
+    url: https://api.assetfare.dev/.well-known/assetfare-manifest.json
+  - type: StatusPage
+    url: https://api.assetfare.dev/v2/status
 - aid: assetfare:assetfare-quote-api
   name: AssetFare Quote API
   description: The Quote API from AssetFare — 1 operation(s) for quote.
@@ -219,14 +285,14 @@ apis:
   - type: StatusPage
     url: https://api.assetfare.dev/v1/status
 maintainers:
-- FN: odaiin
-  url: https://github.com/odaiin/assetfare-mcp
+- FN: AssetFare
+  url: https://github.com/assetfare/assetfare-mcp
   email: support@assetfare.dev
 common:
 - type: MCPServer
   url: https://api.assetfare.dev/mcp
 - type: AgentSkill
-  url: https://github.com/odaiin/assetfare-mcp/blob/main/skills/assetfare-route/SKILL.md
+  url: https://github.com/assetfare/assetfare-mcp/blob/main/skills/assetfare-route/SKILL.md
 - type: Overlay
   url: overlays/assetfare-agent-native-route-api-overlay.yaml
 - type: DomainSecurity
@@ -254,9 +320,19 @@ common:
 - type: PrivacyPolicy
   url: https://assetfare.dev/privacy/
 - type: SourceCode
-  url: https://github.com/odaiin/assetfare-mcp
+  url: https://github.com/assetfare/assetfare-mcp
 - type: Website
   url: https://assetfare.dev/
+- type: GettingStarted
+  url: https://assetfare.dev/pilot/
+- type: WellKnown
+  url: https://assetfare.dev/.well-known/api-catalog
+- type: WellKnown
+  url: https://assetfare.dev/.well-known/ai-plugin.json
+- type: WellKnown
+  url: https://api.assetfare.dev/.well-known/agent-card.json
+- type: WellKnown
+  url: https://assetfare.dev/.well-known/ard.json
 x-enrichment:
   date: '2026-09-14'
   status: enriched
