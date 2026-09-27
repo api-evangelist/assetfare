@@ -4,6 +4,22 @@ description: A capped, non-custodial routing API for a single corridor — Solan
   AssetFare never receives private keys and never signs or submits, framing itself as one route candidate rather than a market-wide
   best-price aggregator.
 url: https://raw.githubusercontent.com/api-evangelist/assetfare/refs/heads/main/apis.yml
+deliveryModel:
+  model: saas
+  license_evidence:
+    not_product:
+    - odaiin/assetfare-mcp
+  open_source: unknown
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: low
+  source:
+  - openapi
+  - pricing
+  - repository-not-product
+  generated: '2026-09-25'
+  method: derived
 created: '2026-09-14'
 modified: '2026-09-14'
 specificationVersion: '0.21'
