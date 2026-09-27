@@ -278,3 +278,11 @@ x-enrichment:
   status: enriched
   artifacts_added: 24
   pass: local-v3
+x-correction-request:
+  requested: '2026-09-27'
+  source: https://github.com/api-evangelist/assetfare/issues/1
+  request: 'Maintainer requests a factual recrawl: the profile still describes a single Solana SOL ->
+    Base ETH corridor. The current capped public release exposes four chains (Solana, Base, Arbitrum,
+    Robinhood Chain), nine asset endpoints, 72 directed quote and caller-signed workflow routes, USD amounts
+    1-1,000, no server signing or custody. Sources: https://assetfare.dev/apis.json, https://api.assetfare.dev/v2/openapi.json.
+    Re-profile from the v2 contract.'
