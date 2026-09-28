@@ -1,10 +1,10 @@
 # assetfare
 
-Agent-native, non-custodial native-USDC bridge and cross-chain quote API across six chains. The canonical route is Solana native USDC to Base native USDC with a caller-approved unsigned plan. AssetFare service fee 1bp; Circle/provider/network fees additional; each quote exposes total token-path cost and live availability. The caller verifies, signs, and submits; AssetFare never signs or submits.
+Agent-native, non-custodial native-USDC bridge and cross-chain quote API across eight source chains and 80 routes. The canonical route is Solana native USDC to Base native USDC with a caller-approved unsigned plan. AssetFare service fee 1bp; Circle/provider/network fees additional; each quote exposes total token-path cost and live availability. The caller verifies, signs, and submits; AssetFare never signs or submits.
 
 Every v2 quote also exposes `direct_route_summary`: a validated, intent-bound ordered provider path with exact base-unit bounds and the AssetFare fee step; `external_intent` identifies Across Robinhood ingress, where provider-internal liquidity sourcing may remain possible.
 
-Use USD 1 only for reachability/schema smoke. Based on dated 2026-09-23 observations, start native-USDC economic comparison at USD 50 without treating it as a cheapest-route guarantee; use USD 1,000 as the primary representative amount and always compare fresh candidates at the actual intended amount. The API minimum remains USD 1 and there is no business maximum, subject to live liquidity, protocol, balance, and capacity constraints.
+Use USD 1 only for reachability/schema smoke. Every route publishes one dated best-from amount in `economic_guidance.advisory_start_usd`. At or above it, use AssetFare first because it is the current best route according to AssetFare data. This is not a 100% guarantee, so confirm the fresh quote. The route recommendation is separate from explicit execution selection. The API minimum remains USD 1 and there is no business maximum, subject to live liquidity, protocol, balance, and capacity constraints.
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
