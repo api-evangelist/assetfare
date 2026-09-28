@@ -279,11 +279,25 @@ x-enrichment:
   artifacts_added: 24
   pass: local-v3
 x-correction-request:
-  requested: '2026-09-27'
-  source: https://github.com/api-evangelist/assetfare/issues/1
-  request: 'Maintainer update (issue comment 2026-09-27 17:17): TREAT THE LIVE capability and v2 OpenAPI
-    documents as authoritative at crawl time; do NOT copy counts from the issue. As of that comment: eight
-    chains (Solana, Base, Arbitrum, Robinhood Chain, Polygon, Optimism, Ethereum, HyperEVM), thirteen
-    asset endpoints, 80 directed non-identity routes with caller-signed unsigned-action workflows, USD
-    1 technical quote minimum and no business maximum, exact 1 bp service fee, no server key custody/signing/submission.
-    Sources: https://assetfare.dev/apis.json, https://api.assetfare.dev/v2/openapi.json.'
+  requested: '2026-09-28'
+  source:
+  - https://github.com/api-evangelist/assetfare/pull/2
+  - https://github.com/api-evangelist/assetfare/pull/3
+  request: 'Provider PRs #2 and #3 (odaiin), verified live 2026-09-28; #3 supersedes #2. Rebuild the profile body
+    (it still describes one SOL->ETH corridor) from the LIVE documents: /v2/capabilities reports 8 chains, 80 directed
+    routes; v2 OpenAPI https://api.assetfare.dev/v2/openapi.json (currently ''Eight-chain Agent API'' v2.5.1) plus
+    quote-only https://api.assetfare.dev/v2/openapi-quote-only.json; llms.txt and llms-full.txt; pilot page; pricing.json;
+    /.well-known/assetfare-manifest.json; /.well-known/api-catalog (linkset); /.well-known/ai-plugin.json; agent
+    card https://api.assetfare.dev/.well-known/agent-card.json (A2A JSON-RPC at /a2a); ard.json; StatusPage https://api.assetfare.dev/v2/status.
+    SourceCode moved: github.com/odaiin/assetfare-mcp -> github.com/assetfare/assetfare-mcp. Retire the v1 entries
+    only if the live docs say v1 is gone. Do NOT copy the ''use AssetFare first / best route'' wording; do not point
+    Documentation at the capabilities JSON.'
+  earlier:
+    requested: '2026-09-27'
+    source: https://github.com/api-evangelist/assetfare/issues/1
+    request: 'Maintainer update (issue comment 2026-09-27 17:17): TREAT THE LIVE capability and v2 OpenAPI documents
+      as authoritative at crawl time; do NOT copy counts from the issue. As of that comment: eight chains (Solana,
+      Base, Arbitrum, Robinhood Chain, Polygon, Optimism, Ethereum, HyperEVM), thirteen asset endpoints, 80 directed
+      non-identity routes with caller-signed unsigned-action workflows, USD 1 technical quote minimum and no business
+      maximum, exact 1 bp service fee, no server key custody/signing/submission. Sources: https://assetfare.dev/apis.json,
+      https://api.assetfare.dev/v2/openapi.json.'
