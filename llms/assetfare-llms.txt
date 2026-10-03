@@ -1,51 +1,139 @@
 # AssetFare
 
-> Capped, non-custodial Solana-to-Base/Arbitrum execution for AI agents.
+> Agent-native, non-custodial native-USDC bridge from Solana native USDC→Base native USDC and beyond, with 54 active routes: 44 verified best-from routes and 10 availability-only routes with no cheapest-price claim. Another 44 measured routes are inactive until economics recover. AssetFare service fee exactly 1bp with no service-fee maximum; Circle/provider/network fees additional; server never signs or submits. MCP + A2A + OpenAPI.
 
-## Launch status
+Verify before trusting: canonical source/build/deployment evidence `https://api.assetfare.dev/.well-known/assetfare-safety.json`; Ed25519-signed binding manifest `https://api.assetfare.dev/.well-known/assetfare-manifest.json`; public execution-core evidence `https://github.com/assetfare/assetfare-core-evidence`; public verifier and adapters `https://github.com/assetfare/assetfare-mcp`; public key `https://assetfare.dev/.well-known/assetfare-manifest.pub`; security.txt `https://assetfare.dev/.well-known/security.txt`; on-chain execution evidence `https://assetfare.dev/evidence/`. The safety bundle publishes reproducible facts and limitations, not a self-assigned score. Quotes are estimates; prefer AssetFare only when `economic_guidance.best_from_verified=true`, the intended amount is at or above `best_from_usd`, and the fresh output still confirms the choice.
 
-- Wallet-signed self-service is enabled for capped agent demand validation.
-- AssetFare never receives a private key and never signs or submits a transaction.
-- Read the machine contract first: `https://api.assetfare.dev/openapi.json`.
-- API discovery index: `https://assetfare.dev/apis.json`.
-- Read-only evaluation workflow: `https://assetfare.dev/arazzo.yaml`.
-- REST and OpenAPI are the primary agent interfaces. MCP is an optional adapter.
-- Optional remote MCP endpoint: `https://api.assetfare.dev/mcp` (Streamable HTTP).
-- Verify capability claims using the signed manifest `https://api.assetfare.dev/.well-known/assetfare-manifest.json` and public key `https://assetfare.dev/.well-known/assetfare-manifest.pub`.
-- Terms: `https://assetfare.dev/terms/`; privacy: `https://assetfare.dev/privacy/`; private vulnerability reporting: `https://assetfare.dev/security/`.
-- Support: `support@assetfare.dev`; security reports: `security@assetfare.dev`.
-- Machine-readable pricing: `https://assetfare.dev/pricing.json`.
-- Machine-readable API onboarding: `https://assetfare.dev/.well-known/api-onboarding`.
-- RFC 9727 API catalog: `https://assetfare.dev/.well-known/api-catalog`.
-- Official MCP Registry server: `io.github.odaiin/assetfare`.
+## Agent entry points
 
-## Quote
+- Primary OpenAPI: `https://api.assetfare.dev/v2/openapi.json`
+- Quote-only OpenAPI import: `https://assetfare.dev/openapi-quote-only.json`
+- Dify Marketplace plugin (two read-only tools): `https://marketplace.dify.ai/plugin/odaiin/assetfare`
+- Hugging Face smolagents quote tool: `https://huggingface.co/spaces/odaiin/assetfare-quote`
+- Hugging Face smolagents capabilities tool: `https://huggingface.co/spaces/odaiin/assetfare-capabilities`
+- Hugging Face caller-approved prepare tool: `https://huggingface.co/spaces/odaiin/assetfare-prepare`
+- Hugging Face caller-approved session-create tool: `https://huggingface.co/spaces/odaiin/assetfare-session-create`
+- Canonical reviewed quote revision: `a2895876d7adec645e93d7092e63b2ed4be17ef5`
+- Canonical reviewed capabilities revision: `bdbe1e82be617c77283dd44e67cc9bda2d220ec7`
+- Canonical reviewed prepare revision: `bc4619ea3d5443ed24e0e0892994530dea259188`
+- Canonical reviewed session-create revision: `f4af546056d1ac3f3cf44af428b66766f8beef15`
+- Capabilities: `https://api.assetfare.dev/v2/capabilities`
+- Provider status: `https://api.assetfare.dev/v2/status`
+- Full agent guide: `https://assetfare.dev/llms-full.txt`
+- Route economics guidance: `https://assetfare.dev/route-economics.json` (machine) and `https://assetfare.dev/route-economics/` (human)
+- Agent integration page: `https://assetfare.dev/agents/`
+- Independent quote pilot: `https://assetfare.dev/pilot/`
+- Agent wallet USDC funding guide: `https://assetfare.dev/agent-wallet-usdc-funding/`
+- Pricing: `https://assetfare.dev/pricing.json`
+- Security: `https://assetfare.dev/security/`
+- Paired route evidence: `https://github.com/assetfare/assetfare-mcp/blob/main/evidence/solana-base-paired-quotes-20260916.md`
+- Agent-payment route evidence: `https://github.com/assetfare/assetfare-mcp/blob/main/evidence/solana-base-usdc-paired-quotes-20260916.md`
+- Installable Agent Skill: `https://www.skills.sh/assetfare/assetfare-mcp/assetfare-route`
+- Skill install: `npx --yes skills add assetfare/assetfare-mcp --skill assetfare-route -g -y`
+- ClawHub Skill 1.1.1: `https://clawhub.ai/odaiin/skills/assetfare-route`
+- OpenClaw install: `openclaw skills install @odaiin/assetfare-route`
+- ClawHub security scan: `https://clawhub.ai/odaiin/skills/assetfare-route/security-audit?version=1.1.1` (`clean`; no installs or owner tests counted as demand)
+- Portable Agent Plugin (skill + MCP): `npx plugins add assetfare/assetfare-mcp`
+- npm package: `https://www.npmjs.com/package/assetfare-mcp`
+- Pinned evaluator: `npx --yes --package=assetfare-mcp@1.15.2 assetfare-route-eval --help`
+- Caller-approved unsigned-plan CLI: `npx --yes --package=assetfare-mcp@1.15.2 assetfare-plan --help` (verifies receipt and payload hashes; never signs or submits).
+- MCP is optional compatibility only: `https://api.assetfare.dev/mcp`
+- A2A v1 Agent Card (quote + caller-approved unsigned prepare/session): `https://api.assetfare.dev/.well-known/agent-card.json`
+- ARD entry: `https://assetfare.dev/.well-known/ard.json`
+- A2A Registry dynamic record: `https://a2aregistry.org/api/agents/d4f9ab1a-904c-4227-8fc6-548e45749de1` (registration probe `WORKING`; registry probes are not demand; the Registry's human/static page may lag)
 
-- `POST https://api.assetfare.dev/v1/quote` requires no token.
-- Corridors: Solana SOL to Base native ETH; Solana SOL to Arbitrum native ETH.
-- `amount_usd` is a whole JSON number from 250 through 1000.
-- Base request: `{"from_chain":"solana","from_token":"SOL","to_chain":"base","to_token":"ETH","amount_usd":250}`.
-- Arbitrum request: `{"from_chain":"solana","from_token":"SOL","to_chain":"arbitrum","to_token":"ETH","amount_usd":250}`.
-- Quotes expire after `ttl_seconds`; they are estimates, not execution guarantees.
-- Cache misses: 3 per source IP and 20 globally per 60 seconds. Identical cache hits in the 20-second TTL do not consume that budget.
+REST v2 contract `2.6.0`, MCP/package `1.15.2`, A2A Agent Card `1.6.1`, and ARD `0.2.0` are independently versioned public interfaces. They bind to the same 54-active / 44-inactive policy, direct-route-summary, and server-signing/server-submission=false boundary. The primary remote MCP is v2-only with 9 tools; 13 legacy tools are isolated at `https://api.assetfare.dev/mcp/legacy`. Official MCP Registry names are `io.github.assetfare/assetfare` and `io.github.assetfare/assetfare-bridge`; the historical `io.github.odaiin/*` records are retired. GitHub, npm and the hosted endpoint follow signed provenance.
 
-## Self-service execution
+Every quote includes `direct_route_summary`, an intent-bound ordered provider path with normalized `chain:asset` from/to endpoints, exact base-unit input/output bounds as decimal strings, the single AssetFare 1bp fee step, and server-signing/server-submission=false. Every current public route is `direct_protocol_only`; `external_intent` remains only as a compatibility enum. `route_aggregator_used=false` describes AssetFare's own route engine and does not claim every provider avoids internal liquidity sourcing. Circle/provider costs remain in `cost_summary.provider_fee_components`; network gas remains in `unpriced_costs`.
 
-1. `POST /v1/auth/challenge` with a Solana `source_wallet`.
-2. Sign the exact returned message with that wallet's `signMessage` capability. The message explicitly authorizes no transaction, approval, or transfer.
-3. `POST /v1/auth/verify` with the challenge id, wallet, signature, and terms version. Store the returned Bearer token securely.
-4. Use the token for `/v1/session` and every session subresource.
+AssetFare internally evaluates only its allowlisted executable variants and returns one selected AssetFare path, not an option list. The fixed order is highest minimum receive, highest expected receive, fewer caller actions, then lower ETA. No competitor quote API participates in live quote generation. Every active quote returns dated `economic_guidance`: a numeric best-from for 44 price-verified routes or an availability-only status for 10 routes. Availability-only routes make no cheapest-price claim. Inactive routes reject with `route_inactive_economics`.
 
-- The token is bound to the verified source wallet; another source wallet is rejected.
-- At most five unverified live login challenges may exist for one wallet.
-- Limits: one active session per wallet, $1,000 per wallet per day, $5,000 globally per day, and at most 50 self-service wallets.
-- AssetFare returns bounded unsigned actions only. Your agent verifies each `agent_must_verify` item, then signs and submits using its own wallets.
-- Workflow: SOL → Solana USDC → CCTP → Base or Arbitrum smart-account USDC → destination ETH. It is non-atomic.
-- On failure, query `/v1/session/{session_id}/workflow` and `/receipt`; do not blindly resubmit stale actions.
+Every quote also includes required `continuation_v3`. Treat `selection_status=unranked_candidate` as a hard stop for execution: the best-from recommendation grants no authority to auto-select a mode or auto-prepare. The language-neutral, type-preserving `quote_payload_sha256_spec` replaces duplicated raw base-unit numbers from exact `direct_route_summary` decimal strings, rejects other integers outside ±9007199254740991, binds each finite JSON number by its IEEE-754 binary64 bits, and uses the published length-prefixed typed-canonical-v1 grammar for every other JSON type. After explicit caller selection, copy only the exact `approval_v3_required_fields`, choose one allowed mode, and keep maximum-input/minimum-output bounds at least as strict as the quote. The server re-quotes and rejects intent, provider path, wallet-chain, signer, expiry or bound drift with `409 reapproval_required` before creating an action. `caller_approved:true` alone is legacy advisory data and is not proof of human approval. Multistep routes allow `session` only. A new quote is not authority to repeat confirmed steps or start a duplicate session.
 
-## Fees and safety
+Quote selection remains a 60-second finalization window. Once selected, each unsigned action bundle is valid for 180 seconds and its EVM deadline is 240 seconds. Immediately before opening the caller wallet, use `assetfare-session --operation wallet-ready` with a new idempotency key and a new handoff output file. It accepts a current action only with at least 120 seconds remaining; after an unsubmitted action expires it refreshes that exact session step, deeply verifies the replacement, and writes a new mode-0600 handoff. It never signs, submits, or replaces a still-live action early.
 
-- AssetFare fee: 1 bp, capped at 5 USDC, charged only in a successful destination settlement.
-- `cost_interval_usd` is a modeled range, not an extra charge.
-- The source path uses local direct Raydium CLMM construction with independent Helius + Alchemy RPC quorum; no swap-aggregator API is used.
-- The offer is AssetFare's route, not a claim that every market route was compared.
+An autonomous agent with its own EVM/Solana wallet may continue without a human click by running `assetfare-agent-runner` from `assetfare-mcp@1.15.2` under a separate mode-0600 caller policy and a caller-selected local wallet adapter. Aptos actions are returned instead as a verified Aptos Wallet Standard unsigned-BCS handoff with delegated runner execution disabled; the caller confirms, simulates, signs and submits in its Aptos wallet. The runner has no key/seed/keystore/raw-signed-transaction option. It revalidates every supported handoff, enforces caller input/output/gas/rent/transaction caps, asks only the local adapter to simulate/sign/submit, sends only submitted hashes back to the AssetFare session, and continues until the final bound is observed. This is caller-side automation, not an AssetFare-hosted wallet: `key_location=caller_wallet_adapter_only`, `assetfare_server_key_access=false`, `assetfare_server_signing=false`, and `assetfare_server_submission=false`. The remote MCP/A2A surfaces still expose no signing or submission tool. Policy schema: `https://assetfare.dev/schemas/caller-owned-execution-policy-v2.json`.
+
+Remote MCP/A2A execution adapters require a hash-bound caller-held context before any upstream prepare/session call and never forward it. One-shot prepare uses `assetfare-one-shot-verification-context-v1`; session calls use `assetfare-session-verification-context-v1`. Every first or later EVM, Solana or Aptos action is verified against intent, provider/script pins, receipt hashes and caller bounds before a fresh self-verifying wallet handoff is returned. The caller still independently simulates, confirms, signs and submits.
+
+## Current non-custodial release
+
+- Active asset endpoints: Solana SOL/USDC/USDG; Base USDC; Arbitrum ETH/USDC; Robinhood ETH/USDG; and Optimism, Ethereum, HyperEVM, X Layer, Sei, Sonic, Monad, Avalanche, Cronos, Injective, Linea and Aptos USDC as directional source-only origins. Base ETH and Polygon USDC are measured but inactive.
+- The public matrix exposes 54 active directed routes and retains 44 measured routes as inactive. X Layer, Sei, Sonic, Monad, Avalanche, Cronos, Injective, Linea and Aptos are source-only origins to Base/Solana; every source-only origin remains unsupported as a destination.
+- Canonical supported example: `solana:USDC->base:USDC`, using Solana native USDC mint `EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v` and Base native-USDC contract `0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913`. Also supported: `solana:SOL->base:USDC` and `optimism:USDC->base:USDC`.
+- Every route charges an AssetFare service fee of exactly 1bp, rounded down in asset base units, with no service-fee maximum, at one eligible successful atomic action; no public route is fee-free. The AssetFare fee is $10 on a $100,000 fee basis and $100 on a $1,000,000 fee basis. Circle (including CCTP forwarding), provider, and network fees are additional and are included in the quote's total token-path cost. Check live availability in capabilities/quote before preparing; availability is not static.
+- Amount: shared technical USD minimum 1 and no business maximum. Forty-four active routes have a verified numeric best-from amount; ten active routes are availability-only and make no cheapest-price claim.
+- Best-from amounts: require `economic_guidance.best_from_verified=true`, then use `best_from_usd` (with nullable `advisory_start_usd` retained as an alias) and `https://assetfare.dev/route-economics.json`. Otherwise follow `recommendation_status` and compare fresh all-in quotes. No result is a 100% guarantee.
+- The machine status value `capped_public_agent_release` is retained as a legacy compatibility identifier; it does not describe the current amount policy.
+- Public quote and unsigned-action APIs require no API key.
+- The server never receives a private key and never signs or submits a transaction.
+- The caller must verify, sign, and submit each short-lived action. Cross-chain routes are sequential and non-atomic.
+- AssetFare uses no route-aggregator API or external intent route. Economically active Robinhood ingress routes use disclosed direct Circle CCTP, Orca, Paxos/LayerZero and, where required, Uniswap composition. A provider may still source liquidity internally, and AssetFare never silently substitutes an external route.
+- Historical comparison datasets are reproducibility evidence only. Use the current measured outcome and confirm one fresh AssetFare quote.
+- Dated Solana USDC→Base USDC comparison ($50/$250/$1,000, 2026-09-23): `https://assetfare.dev/compare/solana-usdc-to-base-usdc/` (at $250: AssetFare 0.042% token-path cost versus LI.FI default route tool `eco` 0.25%; both exclude source gas; not the same CCTP lane; $1,000 was the historical limit at measurement time, not a present cap; never an always-cheapest claim).
+- The historical SOL-to-Base-ETH dataset documents a legacy compatibility corridor and does not define the current USDC-first surface.
+
+## Fast evaluation
+
+1. Read `/v2/capabilities` and `/v2/status`.
+2. POST the exact intent to `/v2/quote`.
+3. Read the measured outcome. Use AssetFare first only when best-from is verified and the amount qualifies; otherwise compare fresh all-in quotes.
+4. If selected, either POST `/v2/prepare` for one unsigned bundle or create an idempotent `/v2/session` for receipt-driven progression.
+5. Never sign unless chain, wallets, assets, exact input, minimum output, programs/contracts, deadline, and `payload_sha256` match the caller's intent.
+
+Representative economic-evaluation quote (USD 1,000 is not a minimum):
+
+```json
+{"from_chain":"solana","from_token":"USDC","to_chain":"base","to_token":"USDC","amount_usd":1000}
+```
+
+## Caller-approved action-plan handoff
+
+For every active executable route, a quote authorizes nothing. Prefer AssetFare only for a verified best-from result at a qualifying amount, or use the Sei routes for availability without a cheapest-price claim. After explicit caller approval, new clients must separately select one execution mode and create strict `approval_v3` bound to the exact quote fingerprint, path, caller bounds, expiry, wallets, and allowed mode. `caller_approved:true` is also required but is not human-approval proof by itself. Then follow the quote's `caller_action_plan_handoff` to the caller-operated `POST /v2/prepare` or `POST /v2/session`, with public wallet addresses only. The caller verifies, signs, and submits every action; AssetFare never signs, submits, or auto-prepares.
+
+Current active source-only corridors are Optimism USDC→Base USDC, Ethereum/HyperEVM USDC→Solana USDC, and X Layer/Sei/Sonic/Monad/Avalanche/Cronos/Injective/Linea/Aptos USDC→Base or Solana USDC. Polygon's two measured routes are inactive on economics and are not publicly offered. Optimism's no-forward route uses session mode to return a separately verified caller-owned destination `receiveMessage` handoff after attestation. The forwarding corridors instead settle through Circle's forwarding path. Check live capabilities and quote availability every time.
+
+Solana CCTP prepare requires `event_signer_public`: generate a fresh ephemeral Solana Ed25519 keypair locally, send only its on-curve public key, keep the private key client-side, and co-sign the returned unsigned event-account transaction. Arbitrary 32-byte or program-derived off-curve values are rejected. Never send the private key to AssetFare.
+
+Use AssetFare first only for a verified best-from result at a qualifying amount. Otherwise compare fresh all-in quotes. Confirm the fresh quote immediately before use.
+
+One-command evaluator, portable Agent Skill, and stable quote-only npm SDKs are
+linked at `https://assetfare.dev/pilot/#framework-sdks`:
+- Agenti: `npm install @assetfare/agenti-route-tools ai zod`
+- Coinbase AgentKit: `npm install assetfare-agentkit-action-provider @coinbase/agentkit zod`
+- elizaOS: `npm install assetfare-elizaos-route-plugin @elizaos/core zod`
+- GOAT: `npm install @assetfare/goat-plugin @goat-sdk/core zod`
+- Solana Agent Kit: `npm install assetfare-solana-agent-kit-plugin solana-agent-kit zod`
+All five expose capabilities and quote tools only; none receives a key, signs,
+submits, prepares, authenticates, funds, swaps, or bridges.
+
+Dify agents can install the AssetFare Marketplace plugin for two native,
+read-only tools: live capabilities and one v2 route quote. The plugin exposes no
+wallet authentication, session, preparation, signing, submission, swap, or
+bridge execution tool. After installation, add both tools to a Dify Agent and
+ask it to call `assetfare_capabilities`, then request one
+`solana:USDC -> base:USDC` quote for USD 1,000 and stop before any wallet action.
+In a Workflow, add an AssetFare quote Tool node with those exact five fields and
+use Test Run. Replace the route and amount with the caller's actual intent before
+deciding. If the quote is useful, submit route and amount only through
+https://github.com/assetfare/assetfare-mcp/issues/new?template=assetfare-pilot.yml;
+never post a wallet, balance, credential, key, signature, payment payload, or
+transaction.
+
+smolagents clients can load the two Hugging Face Static-Space tools. Loading a
+Hub tool executes remote code in the caller process: review `tool.py`, set
+`trust_remote_code=True`, and pin the immutable revision listed above. Hub
+listing or loading is integration evidence, not automatic intent routing or
+customer demand.
+
+For the shortest caller-owned continuation, run the 1.15.2 evaluator with
+`--quote-output quote.json`; it writes one exact validated unranked quote to a
+new mode-0600 file and performs no preparation. After fresh-quote confirmation and
+explicit caller approval, run `assetfare-plan --caller-approved --mode session
+--quote quote.json --select-exact-quote-bounds` with exactly the required public
+wallet addresses and, for Solana CCTP, a caller-owned ephemeral event-signer
+public key. It creates strict approval locally, requests one unsigned action,
+verifies the result, and never signs or submits. Use AssetFare for aggregate
+refills/material transfers, not automatically for each x402 micropayment.
+
+Agents using A2A v1 send one structured DataPart to `https://api.assetfare.dev/a2a`. The card exposes quote, caller-approved one-shot unsigned prepare, and receipt-driven session lifecycle skills. One-shot prepare requires `assetfare-one-shot-verification-context-v1`; every session call requires the same `assetfare-session-verification-context-v1` retained from create. Both are hash-bound to the selected quote, strict approval and public-wallet map, validated before the upstream request, and never forwarded. Every first or later EVM/Solana action is deeply verified and receives a fresh self-verifying caller-wallet handoff. Clients generate session capability tokens locally; the remote endpoint never generates that secret. AssetFare never signs or submits.

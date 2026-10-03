@@ -1,0 +1,3 @@
+# x-archived-from: assetfare-v2-openapi.json
+# x-archived-on: 2026-10-03
+# x-source-url: https://api.assetfare.dev/v2/openapi.json

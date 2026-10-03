@@ -1,40 +1,47 @@
-generated: '2026-09-14'
+generated: '2026-10-03'
 method: probed
-source: https://assetfare.dev/pricing.json (machine-readable, application/json) fetched 2026-09-14
+source: https://assetfare.dev/pricing.json (machine-readable, application/json) fetched 2026-10-03
 human_readable: https://assetfare.dev/pricing/
-currency: USDC
-phase: capped_agent_demand_validation
+name: AssetFare pricing
+currency: USD
+phase: noncustodial_public_agent_release
 plan_count: 1
 plans:
-  - name: capped-agent-demand-validation
-    price: 0
-    currency: USDC
-    billing_period: usage-based
-    api_key_required: false
-    subscription_required: false
-    mcp_required: false
-    included:
-      public_quote: Free, no account/API key/wallet/MCP required.
-      execution_fee_bps: 1
-      execution_fee_percent: 0.01
-      execution_fee_cap_usdc: 5
-      fee_collection: destination_atomic_batch_success_only
-      charged_on_failed_or_incomplete_route: false
-    limits:
-      minimum_route_usd: 250
-      maximum_route_usd: 1000
-      whole_dollars_only: true
-      wallet_daily_usd: 1000
-      global_daily_usd: 5000
-      maximum_self_service_wallets: 50
-      maximum_active_sessions_per_wallet: 1
-    corridors:
-      - solana:SOL->base:ETH
-      - solana:SOL->arbitrum:ETH
+- name: public-agent-release
+  price: 0
+  currency: USD
+  billing_period: usage-based
+  description: Public quotes are free with no API key, subscription or MCP required; the only AssetFare charge is
+    an exact 1 bp service fee on a successful eligible action, with no fee maximum.
+  api_key_required: false
+  subscription_required: false
+  mcp_required: false
+  included:
+    public_quote_price_usd: 0
+    execution_fee_bps: 1
+    execution_fee_percent: 0.01
+    fee_maximum: null
+    fee_policy: exact_one_bps_no_maximum
+    fee_formula: floor(fee_basis_stable_base * exact_fee_bps / 10000)
+    fee_collection: exactly_one_eligible_successful_atomic_action
+    fee_accounting_assets:
+    - USDC
+    - USDG
+  limits:
+  - name: minimum_route_usd
+    value: 1
+  - name: maximum_route_usd
+    value: null
+    note: no business maximum
+  - name: chains
+    value: 16
+  - name: asset_endpoints
+    value: 20
+  - name: directed_nonidentity_routes
+    value: 54
 other_costs:
   borne_by: caller
-  categories: [network, swap_pool, bridge, price_impact, paymaster, third_party_protocol]
-  note: cost_interval_usd is a modeled range, not an additional charge; a quote is not an execution guarantee.
-note: >-
-  Single usage-based tier during the demand-validation phase — no subscription tiers. Public quotes are
-  free; the only charge is a 1 bp fee (capped at 5 USDC) collected solely on a successful destination settlement.
+  note: The 1bp AssetFare service fee is not the total cost. Circle CCTP (including fixed forwarding fees), provider,
+    and network fees are additional; each quote exposes the total token-path cost and live availability.
+note: Replaces the 2026-09-14 capped demand-validation tier ($250-$1,000 per route, 5 USDC fee cap, two SOL->ETH
+  corridors), which the live pricing.json no longer describes.

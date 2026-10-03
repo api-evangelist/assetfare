@@ -1,10 +1,10 @@
 {
   "aid": "assetfare-dev",
   "name": "AssetFare",
-  "description": "A capped, non-custodial Solana SOL to Base or Arbitrum native ETH route API for AI agents. Public fee-inclusive quotes are available over REST without an API key. AssetFare returns bounded unsigned actions and never receives a private key, signs, or submits a transaction. AssetFare is one route candidate and does not claim to be market-wide best.",
+  "description": "AssetFare is a non-custodial bridge API from Solana native USDC to Base native USDC and beyond, with 54 active routes: 44 price-verified and 10 availability-only routes with no cheapest-price claim. Another 44 measured routes are inactive. AssetFare service fee exactly 1bp with no service-fee maximum; Circle/provider/network fees are separate and additional. Every active quote exposes direct_route_summary and continuation_v3; the server never signs or submits.",
   "url": "https://assetfare.dev/apis.json",
   "created": "2026-09-14",
-  "modified": "2026-09-14",
+  "modified": "2026-09-27",
   "specificationVersion": "0.23",
   "type": "Index",
   "tags": [
@@ -17,7 +17,11 @@
     "Cryptocurrency",
     "Non-custodial",
     "OpenAPI",
-    "Solana"
+    "Optimism",
+    "Polygon",
+    "Robinhood Chain",
+    "Solana",
+    "Swap"
   ],
   "common": [
     {
@@ -33,15 +37,27 @@
       "url": "https://assetfare.dev/.well-known/security.txt"
     },
     {
+      "type": "Verification",
+      "url": "https://api.assetfare.dev/.well-known/assetfare-safety.json"
+    },
+    {
       "type": "Support",
-      "url": "https://github.com/odaiin/assetfare-mcp/issues"
+      "url": "https://github.com/assetfare/assetfare-mcp/issues"
+    },
+    {
+      "type": "Package",
+      "url": "https://www.npmjs.com/package/assetfare-mcp"
+    },
+    {
+      "type": "GettingStarted",
+      "url": "https://assetfare.dev/pilot/"
     }
   ],
   "apis": [
     {
-      "aid": "assetfare-dev:route-api",
-      "name": "AssetFare Route API",
-      "description": "Quote and caller-signed execution workflow for capped Solana SOL to Base or Arbitrum native ETH corridors. Use a fresh quote and compare fee-inclusive output, minimum receive, time, and non-atomic risk against other executable routes before selection.",
+      "aid": "assetfare-dev:multichain-route-api-v2",
+      "name": "AssetFare Sixteen-chain Agent Route API",
+      "description": "AssetFare is a non-custodial bridge API from Solana native USDC to Base native USDC and beyond, with 54 active routes: 44 price-verified and 10 availability-only routes with no cheapest-price claim. Another 44 measured routes are inactive. AssetFare service fee exactly 1bp with no service-fee maximum; Circle/provider/network fees are separate and additional. Every active quote exposes direct_route_summary and continuation_v3; the server never signs or submits.",
       "humanURL": "https://assetfare.dev/",
       "baseURL": "https://api.assetfare.dev",
       "tags": [
@@ -49,14 +65,26 @@
         "Arbitrum",
         "Base",
         "Bridge",
-        "Cross-chain",
         "Non-custodial",
-        "Solana"
+        "Optimism",
+        "Polygon",
+        "Robinhood Chain",
+        "Solana",
+        "Swap"
       ],
       "properties": [
         {
           "type": "OpenAPI",
-          "url": "https://api.assetfare.dev/openapi.json"
+          "url": "https://api.assetfare.dev/v2/openapi.json"
+        },
+        {
+          "type": "OpenAPI",
+          "url": "https://assetfare.dev/openapi-quote-only.json",
+          "description": "Restricted agent-tool import exposing only capabilities, status, and quote operations."
+        },
+        {
+          "type": "Documentation",
+          "url": "https://api.assetfare.dev/v2/capabilities"
         },
         {
           "type": "Arazzo",
@@ -67,20 +95,22 @@
           "url": "https://assetfare.dev/llms-full.txt"
         },
         {
-          "type": "Documentation",
-          "url": "https://assetfare.dev/solana-to-arbitrum-agent-route/"
+          "type": "GettingStarted",
+          "url": "https://assetfare.dev/pilot/",
+          "description": "Independent one-dollar quote pilot, portable Agent Skill, and tested framework integrations."
+        },
+        {
+          "type": "AgentSkill",
+          "url": "https://www.skills.sh/assetfare/assetfare-mcp/assetfare-route",
+          "description": "Portable REST/OpenAPI-first route comparison instructions for shell-capable agents."
         },
         {
           "type": "StatusPage",
-          "url": "https://api.assetfare.dev/v1/status"
+          "url": "https://api.assetfare.dev/v2/status"
         },
         {
           "type": "Pricing",
           "url": "https://assetfare.dev/pricing.json"
-        },
-        {
-          "type": "Authentication",
-          "url": "https://assetfare.dev/.well-known/api-onboarding"
         },
         {
           "type": "TermsOfService",
@@ -96,15 +126,23 @@
         },
         {
           "type": "MCPServer",
-          "url": "https://api.assetfare.dev/mcp"
+          "url": "https://api.assetfare.dev/mcp",
+          "description": "Optional compatibility adapter; REST/OpenAPI v2 is primary."
         },
         {
-          "type": "MCPServerCard",
-          "url": "https://api.assetfare.dev/.well-known/mcp/server-card.json"
+          "type": "A2AAgentCard",
+          "url": "https://api.assetfare.dev/.well-known/agent-card.json",
+          "description": "A2A v1 interface with structured quote, caller-approved one-shot unsigned prepare, and receipt-driven session lifecycle skills. Clients generate session capability tokens locally; AssetFare never signs or submits."
         },
         {
-          "type": "AgentSkills",
-          "url": "https://github.com/odaiin/assetfare-mcp/tree/main/skills/assetfare-route"
+          "type": "AgenticResourceDiscovery",
+          "url": "https://assetfare.dev/.well-known/ard.json",
+          "description": "Federated discovery entry pointing to the canonical A2A Agent Card."
+        },
+        {
+          "type": "A2ARegistry",
+          "url": "https://a2aregistry.org/api/agents/d4f9ab1a-904c-4227-8fc6-548e45749de1",
+          "description": "Community registry listing; health and task probes are discovery traffic, not customer demand."
         }
       ]
     }
@@ -113,23 +151,23 @@
     {
       "type": "AgentPrompt",
       "name": "AssetFare agent integration and safety guide",
-      "description": "How an agent discovers, verifies, compares, and—only after caller approval—uses the AssetFare route without delegating signing or submission.",
+      "description": "Read verified best-from or availability-only guidance, confirm a fresh quote, and use caller-signed AssetFare actions without delegating custody.",
       "url": "https://assetfare.dev/llms-full.txt"
     }
   ],
   "rules": [
     {
       "type": "Rules",
-      "name": "AssetFare fair-comparison and custody rules",
-      "description": "Treat AssetFare as one candidate, verify fresh data, and keep wallet approval, signing, and submission with the caller.",
-      "url": "https://github.com/odaiin/assetfare-mcp/blob/main/AGENTS.md"
+      "name": "AssetFare best-from and custody rules",
+      "description": "Use AssetFare first only when best_from_verified=true and the intended amount qualifies; otherwise follow recommendation_status. Keep execution selection, verification, signing, and submission with the caller.",
+      "url": "https://github.com/assetfare/assetfare-mcp/blob/main/AGENTS.md"
     }
   ],
   "workflows": [
     {
       "type": "Arazzo",
-      "name": "Read-only route evaluation",
-      "description": "Machine-readable status, signed-manifest, and public-quote workflow. It stops before wallet authentication, session creation, signing, or submission.",
+      "name": "Read-only multichain route evaluation",
+      "description": "Read capabilities and health, then request one fresh quote. It stops before action preparation, signing, or submission.",
       "url": "https://assetfare.dev/arazzo.yaml"
     }
   ]

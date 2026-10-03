@@ -1,42 +1,56 @@
-generated: '2026-09-14'
+generated: '2026-10-03'
 method: searched
-source: https://assetfare.dev/llms.txt (Quote section) + openapi 429 responses + Error schema (fetched 2026-09-14)
-limit_count: 3
+source: https://assetfare.dev/llms-full.txt ("Public operating limits", fetched 2026-10-03)
+name: AssetFare public operating limits
+limit_count: 6
 exhaustion_status: 429
 response_headers:
-  standard_ratelimit_headers: none
-  detail: >-
-    No X-RateLimit-*/RateLimit-*/Retry-After response headers are declared. On 429 the JSON error body
-    carries `retry_after_seconds` (integer, min 1) and `retryable` (bool).
+  standard_ratelimit_headers: unknown
+  detail: llms-full.txt says to retry only according to the returned status and retry_after_seconds.
 limits:
-  - scope: per-source-IP
-    surface: POST /v1/quote (cache misses)
-    window: 60s
-    limit: 3
-    note: Cache misses only; identical cache hits within the 20-second TTL do not consume the budget.
-  - scope: global
-    surface: POST /v1/quote (cache misses)
-    window: 60s
-    limit: 20
-    note: Global cache-miss budget across all callers.
-  - scope: per-wallet
-    surface: login challenges
-    window: concurrent
-    limit: 5
-    note: At most five unverified live login challenges may exist for one wallet.
+- name: per-identity quote
+  scope: per-identity
+  surface: POST /v2/quote
+  window: 60s
+  limit: 3
+- name: per-identity prepare
+  scope: per-identity
+  surface: POST /v2/prepare, POST /v2/session
+  window: 60s
+  limit: 2
+- name: per-identity observation/refresh
+  scope: per-identity
+  surface: session observe-source / observe-output / refresh-action
+  window: 60s
+  limit: 12
+- name: global quote
+  scope: global
+  surface: POST /v2/quote
+  window: 60s
+  limit: 12
+- name: global prepare
+  scope: global
+  surface: POST /v2/prepare, POST /v2/session
+  window: 60s
+  limit: 8
+- name: global observation/refresh
+  scope: global
+  surface: session observe-source / observe-output / refresh-action
+  window: 60s
+  limit: 30
 capacity_caps:
-  - scope: per-wallet
-    window: daily
-    limit_usd: 1000
-  - scope: global
-    window: daily
-    limit_usd: 5000
-  - scope: per-wallet
-    metric: active_sessions
-    limit: 1
-  - scope: service
-    metric: self_service_wallets
-    limit: 50
-note: >-
-  Rate/capacity limits are published in llms.txt and echoed by /v1/status and the signed manifest.
-  These are throttle + notional-value caps rather than a classic requests-per-minute quota tier.
+- scope: per-network-identity
+  metric: active_sessions
+  limit: 3
+- scope: global
+  metric: active_sessions
+  limit: 200
+- scope: global
+  metric: retained_sessions
+  limit: 1000
+- scope: global
+  metric: session_database
+  limit: 64 MiB
+note: nginx adds independent per-IP and concurrent-connection limits (values not published). Replaces the 2026-09-14
+  v1-era limits (quote 3/min per IP, 20/min global, $1,000/day per wallet, $5,000/day global), which the live documents
+  no longer state.

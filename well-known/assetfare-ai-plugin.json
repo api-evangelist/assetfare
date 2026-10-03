@@ -1,0 +1,17 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "AssetFare",
+  "name_for_model": "assetfare",
+  "description_for_human": "Solana to Base bridge quotes with validated provider paths. You sign; server never signs.",
+  "description_for_model": "AssetFare exposes 54 active direct-protocol routes and 44 inactive measured routes. Every active quote includes direct_route_summary and direct_protocol_only; external_intent is a compatibility enum with zero active routes, and route_aggregator_used=false describes AssetFare engine only. AssetFare service fee is exactly 1bp with no service-fee maximum; $100,000 fee basis means $10; $1,000,000 means $100. Circle/provider/network fees are separate and additional. Check total token-path cost and require the route to be live-available; availability is not static. AssetFare does not claim to be the cheapest. Only after comparing candidates and explicitly selecting AssetFare, provide strict approval_v3; caller_approved:true is also required but is not human-approval proof by itself. The server never signs or submits. Project reviews are not independent third-party assurance. Source: https://github.com/assetfare/assetfare-mcp",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://assetfare.dev/openapi-quote-only.json"
+  },
+  "logo_url": "https://assetfare.dev/assets/logo.svg",
+  "contact_email": "support@assetfare.dev",
+  "legal_info_url": "https://assetfare.dev/terms/"
+}

@@ -1,0 +1,44 @@
+{
+  "@context": "https://agenticresourcediscovery.org/context/v1",
+  "entries": [
+    {
+      "@context": "https://agenticresourcediscovery.org/context/v1",
+      "identifier": "urn:air:assetfare.dev:agent:route-quotes",
+      "displayName": "AssetFare Route Quotes",
+      "type": "application/a2a-agent-card+json",
+      "url": "https://api.assetfare.dev/.well-known/agent-card.json",
+      "capabilities": [
+        "CrossChainRouteQuote",
+        "SameChainSwapQuote",
+        "MinimumReceiveComparison",
+        "NonCustodialQuote",
+        "CallerApprovedUnsignedPlan",
+        "IntentBoundOrderedProviderPath"
+      ],
+      "description": "Agent-native, non-custodial bridge from Solana native USDC to Base native USDC and beyond, with 54 active routes: 44 price-verified and 10 availability-only routes with no cheapest-price claim. Another 44 measured routes are inactive. AssetFare service fee exactly 1bp with no service-fee maximum; Circle/provider/network fees are separate and additional. Quotes require fresh confirmation; the server never signs or submits.",
+      "x-directRouteSummary": {"version": "assetfare-direct-route-summary-v1", "requiredOnEveryQuote": true, "orderedProviderPath": true, "normalizedEndpoints": true, "assetfareFeeStepBound": true, "classification": ["direct_protocol_only", "external_intent"], "routeAggregatorUsedScope": "AssetFare engine only; every current route is direct_protocol_only", "serverSigning": false, "serverSubmission": false},
+      "representativeQueries": [
+        "Quote and compare the total cost of bridging 1,000 USD of Solana native USDC to Base native USDC",
+        "Quote Optimism native USDC to Base native USDC",
+        "Compare expected receive, minimum receive, ETA, steps, and non-atomic risk for a cross-chain swap",
+        "Get a read-only quote across AssetFare's 54 active routes without wallet login, signing, or submission"
+        ,"Show the validated ordered direct-protocol path, normalized endpoints, amount bounds and AssetFare fee step"
+      ],
+      "version": "0.2.0",
+      "updatedAt": "2026-09-24T00:00:00Z",
+      "tags": [
+        "ai-agents",
+        "cross-chain",
+        "bridge",
+        "swap",
+        "solana",
+        "base",
+        "arbitrum",
+        "optimism",
+        "polygon",
+        "robinhood-chain",
+        "non-custodial"
+      ]
+    }
+  ]
+}

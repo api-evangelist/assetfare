@@ -9,28 +9,25 @@ info:
     name: Proprietary public API terms
     url: https://assetfare.dev/terms/
   termsOfService: https://assetfare.dev/terms/
-  title: AssetFare Active-route Agent Status API
+  title: AssetFare Active-route Agent Capabilities API
   version: 2.6.0
 servers:
 - url: https://api.assetfare.dev
 security: []
 tags:
-- name: Status
+- name: Capabilities
 paths:
-  /v2/status:
+  /v2/capabilities:
     get:
-      description: 'Includes a nonblocking last-known CCTP/Circle-Iris health snapshot (cctp: status available|degraded|unknown, last_success_at, age_seconds, stale, guarantees_future_availability=false). An Iris outage degrades the snapshot but never fails this endpoint.'
-      operationId: getMultichainStatus
+      operationId: getMultichainCapabilities
       responses:
         '200':
-          description: Route health incl. last-known cctp/iris snapshot
+          description: Capabilities, economic-evaluation guidance, and nonblocking live availability snapshot
         '429':
           description: Rate limited
-        '503':
-          description: Capacity busy
-      summary: Read route health without creating a quote
+      summary: List implemented routes plus current provider-dependent prepare availability
       tags:
-      - Status
+      - Capabilities
 x-assetfare-evaluation-guidance:
   always_compare_fresh_at_intended_amount: true
   documentation_example_scope: example_only_not_route_guidance_or_minimum

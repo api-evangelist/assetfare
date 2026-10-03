@@ -1,5 +1,5 @@
 Contact: mailto:security@assetfare.dev
-Contact: https://github.com/odaiin/assetfare-mcp/security/advisories/new
+Contact: https://github.com/assetfare/assetfare-mcp/security/advisories/new
 Expires: 2027-03-14T00:00:00Z
 Preferred-Languages: en, ko
 Canonical: https://assetfare.dev/.well-known/security.txt

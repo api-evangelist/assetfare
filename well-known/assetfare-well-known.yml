@@ -1,20 +1,38 @@
-generated: '2026-09-14'
+generated: '2026-10-03'
 method: probed
-source: live /.well-known probes of both AssetFare hosts (fetched 2026-09-14)
+source: live unauthenticated GET of /.well-known/ paths on both AssetFare hosts, 2026-10-03; invented-path controls
+  on both hosts return 404
 hosts:
 - host: api.assetfare.dev
   documents:
   - path: /.well-known/security.txt
     status: 200
+    content_type: text/plain; charset=utf-8
     file: assetfare-security.txt
   - path: /.well-known/api-catalog
     status: 200
+    content_type: application/linkset+json; profile="https://www.rfc-editor.org/info/rfc9727"
     file: assetfare-api-catalog.json
-    note: RFC 9727 linkset (application/linkset+json), pointing at openapi.json + arazzo.yaml.
+    note: 'RFC 9727 linkset: v2 anchor (v2 OpenAPI, Arazzo, pilot, evidence, llms-full.txt, status) and a v1 legacy-compatibility
+      anchor.'
   - path: /.well-known/assetfare-manifest.json
     status: 200
+    content_type: application/json
     file: assetfare-manifest.json
-    note: Vendor Ed25519-signed capability manifest (also referenced from the OpenAPI as an operation).
+    note: Vendor capability manifest.
+  - path: /.well-known/assetfare-safety.json
+    status: 200
+    content_type: application/json; charset=utf-8
+    note: Safety evidence document referenced from the api-catalog service-meta.
+  - path: /.well-known/agent-card.json
+    status: 200
+    content_type: application/json; charset=utf-8
+    file: assetfare-agent-card.json
+    note: A2A agent card (AssetFare Route Quotes 1.6.1, JSON-RPC interface at https://api.assetfare.dev/a2a).
+  - path: /.well-known/agent.json
+    status: 200
+    content_type: application/json; charset=utf-8
+    note: Byte-identical to agent-card.json.
   - path: /.well-known/openid-configuration
     status: 404
   - path: /.well-known/oauth-authorization-server
@@ -23,31 +41,57 @@ hosts:
     status: 404
   - path: /.well-known/ai-plugin.json
     status: 404
-  - path: /.well-known/agent-card.json
+  - path: /.well-known/ard.json
     status: 404
-  - path: /.well-known/agent.json
+  - path: /.well-known/api-onboarding
+    status: 404
+  - path: /.well-known/mcp.json
     status: 404
 - host: assetfare.dev
   documents:
   - path: /.well-known/security.txt
     status: 200
-    note: Canonical copy (same document; canonical URL declared in the file).
+    content_type: text/plain; charset=UTF-8
+    note: Same document as the API host copy; both canonical URLs are declared in the file.
   - path: /.well-known/api-catalog
     status: 200
-    note: RFC 9727 linkset served on the root host as well.
-  - path: /.well-known/assetfare-manifest.pub
+    content_type: application/linkset+json; profile="https://www.rfc-editor.org/info/rfc9727"
+    file: assetfare-root-api-catalog.json
+    note: Lists the v2 OpenAPI, the quote-only OpenAPI import and the Arazzo workflow.
+  - path: /.well-known/ard.json
     status: 200
-    note: Ed25519 public key for verifying the signed manifest.
+    content_type: application/json
+    file: assetfare-ard.json
+    note: Agentic Resource Discovery entries pointing at the A2A agent card.
+  - path: /.well-known/ai-plugin.json
+    status: 200
+    content_type: application/json; charset=UTF-8
+    file: assetfare-ai-plugin.json
   - path: /.well-known/api-onboarding
     status: 200
-    note: API Commons api-onboarding descriptor (aod 0.1, maturity self-serve).
+    content_type: application/json; charset=UTF-8
+  - path: /.well-known/assetfare-manifest.pub
+    status: 200
+    content_type: application/x-mspublisher
+    note: Public key for verifying the signed manifest (served with a mis-set content type).
   - path: /.well-known/openid-configuration
     status: 404
   - path: /.well-known/oauth-authorization-server
     status: 404
-  - path: /.well-known/ai-plugin.json
+  - path: /.well-known/oauth-protected-resource
     status: 404
   - path: /.well-known/agent-card.json
     status: 404
   - path: /.well-known/agent.json
     status: 404
+  - path: /.well-known/mcp.json
+    status: 404
+extras:
+- url: https://assetfare.dev/apis.json
+  status: 200
+  content_type: application/json; charset=UTF-8
+  file: assetfare-apis.json
+  note: Provider-hosted APIs.json index (modified 2026-09-27).
+note: 'Re-probed 2026-10-03 after the provider corrections (issue #1, PRs #2/#3). New since 2026-09-14: the A2A
+  agent card (api host), ard.json and ai-plugin.json (root host), and a safety evidence document. The ai-plugin.json
+  and ard.json the correction named are served from assetfare.dev, not api.assetfare.dev.'

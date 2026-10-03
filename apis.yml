@@ -1,14 +1,18 @@
 name: AssetFare
-description: A capped, non-custodial routing API for a single corridor — Solana SOL to Base native ETH — aimed at AI agents.
-  It returns fee-inclusive quotes and bounded unsigned actions; the caller's agent verifies, signs, and submits every transaction.
-  AssetFare never receives private keys and never signs or submits, framing itself as one route candidate rather than a market-wide
-  best-price aggregator.
+description: >-
+  A non-custodial routing API for AI agents that returns fee-inclusive cross-chain and same-chain quotes and
+  bounded unsigned actions; the caller's own wallet verifies, signs and submits every transaction, and AssetFare
+  never holds keys, signs or submits. Its live v2 capabilities document (checked 2026-10-03) lists 16 chains, 20
+  asset endpoints and 54 active directed routes (a further 44 measured routes are inactive), with a USD 1 minimum,
+  no business maximum and an exact 1 bp service fee on top of provider and network fees. The v2 REST contract
+  covers capabilities, quote, prepare, a receipt-driven session lifecycle and status; the same surface is offered
+  over MCP and A2A, and a legacy v1 compatibility API remains live.
 url: https://raw.githubusercontent.com/api-evangelist/assetfare/refs/heads/main/apis.yml
 deliveryModel:
   model: saas
   license_evidence:
     not_product:
-    - odaiin/assetfare-mcp
+    - assetfare/assetfare-mcp
   open_source: unknown
   commercial: true
   callable_host: true
@@ -18,10 +22,10 @@ deliveryModel:
   - openapi
   - pricing
   - repository-not-product
-  generated: '2026-09-25'
+  generated: '2026-10-03'
   method: derived
 created: '2026-09-14'
-modified: '2026-09-14'
+modified: '2026-10-03'
 specificationVersion: '0.21'
 tags:
 - AI Agents
@@ -32,6 +36,10 @@ tags:
 - Cryptocurrency
 - Solana
 - Base
+- Arbitrum
+- Robinhood Chain
+- Optimism
+- Ethereum
 - OpenAPI
 - MCP
 - Agent Skills
@@ -44,26 +52,30 @@ tags_raw:
 - Cryptocurrency
 - Solana
 - Base
+- Arbitrum
+- Robinhood Chain
+- Optimism
+- Ethereum
 - OpenAPI
 - MCP
 - Agent Skills
 apis:
-- aid: assetfare:assetfare-auth-api
-  name: AssetFare Auth API
-  description: The Auth API from AssetFare — 2 operation(s) for auth.
-  humanURL: https://assetfare.dev/solana-to-base-agent-route/
+- aid: assetfare:assetfare-capabilities-api
+  name: AssetFare Capabilities API
+  description: 'Reads the live v2 capability document: chains, asset endpoints, active and inactive directed routes, fee policy, amount policy and execution availability.'
+  humanURL: https://assetfare.dev/pilot/
   baseURL: https://api.assetfare.dev
   tags:
-  - Authentication
-  tags_raw:
-  - Auth
+  - Capabilities
   properties:
   - type: OpenAPI
-    url: openapi/assetfare-auth-api-openapi.yml
+    url: openapi/assetfare-capabilities-api-openapi.yml
+  - type: OpenAPI Source
+    url: https://api.assetfare.dev/v2/openapi.json
   - type: Documentation
-    url: https://assetfare.dev/solana-to-base-agent-route/
-  - type: APIReference
-    url: https://api.assetfare.dev/openapi.json
+    url: https://assetfare.dev/llms-full.txt
+  - type: GettingStarted
+    url: https://assetfare.dev/pilot/
   - type: LLMsTxt
     url: llms/assetfare-llms.txt
   - type: ToolCrosswalk
@@ -85,11 +97,49 @@ apis:
   - type: Lifecycle
     url: lifecycle/assetfare-lifecycle.yml
   - type: StatusPage
-    url: https://api.assetfare.dev/v1/status
+    url: https://api.assetfare.dev/v2/status
+- aid: assetfare:assetfare-prepare-api
+  name: AssetFare Prepare API
+  description: Returns a validated, bounded unsigned action bundle for a quote the caller has explicitly approved; the caller signs and submits.
+  humanURL: https://assetfare.dev/pilot/
+  baseURL: https://api.assetfare.dev
+  tags:
+  - Prepare
+  properties:
+  - type: OpenAPI
+    url: openapi/assetfare-prepare-api-openapi.yml
+  - type: OpenAPI Source
+    url: https://api.assetfare.dev/v2/openapi.json
+  - type: Documentation
+    url: https://assetfare.dev/llms-full.txt
+  - type: GettingStarted
+    url: https://assetfare.dev/pilot/
+  - type: LLMsTxt
+    url: llms/assetfare-llms.txt
+  - type: ToolCrosswalk
+    url: mcp/assetfare-tool-crosswalk.yml
+  - type: ErrorCatalog
+    url: errors/assetfare-problem-types.yml
+  - type: Conventions
+    url: conventions/assetfare-conventions.yml
+  - type: Idempotency
+    url: conventions/assetfare-conventions.yml
+  - type: DataModel
+    url: data-model/assetfare-data-model.yml
+  - type: Conformance
+    url: conformance/assetfare-conformance.yml
+  - type: Plans
+    url: plans/assetfare-plans-pricing.yml
+  - type: RateLimits
+    url: rate-limits/assetfare-rate-limits.yml
+  - type: Lifecycle
+    url: lifecycle/assetfare-lifecycle.yml
+  - type: StatusPage
+    url: https://api.assetfare.dev/v2/status
 - aid: assetfare:assetfare-quote-api
   name: AssetFare Quote API
-  description: The Quote API from AssetFare — 1 operation(s) for quote.
-  humanURL: https://assetfare.dev/solana-to-base-agent-route/
+  description: Quotes a live route with expected and minimum receive, total token-path cost, provider fees, ETA and the ordered direct-protocol provider path.
+  humanURL: https://assetfare.dev/pilot/
   baseURL: https://api.assetfare.dev
   tags:
   - Quotes
@@ -98,10 +148,15 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/assetfare-quote-api-openapi.yml
+  - type: OpenAPI Source
+    url: https://api.assetfare.dev/v2/openapi.json
+  - type: OpenAPI Source
+    name: Quote-only agent import (capabilities, status, quote)
+    url: https://assetfare.dev/openapi-quote-only.json
   - type: Documentation
-    url: https://assetfare.dev/solana-to-base-agent-route/
-  - type: APIReference
-    url: https://api.assetfare.dev/openapi.json
+    url: https://assetfare.dev/llms-full.txt
+  - type: GettingStarted
+    url: https://assetfare.dev/pilot/
   - type: LLMsTxt
     url: llms/assetfare-llms.txt
   - type: ToolCrosswalk
@@ -123,11 +178,11 @@ apis:
   - type: Lifecycle
     url: lifecycle/assetfare-lifecycle.yml
   - type: StatusPage
-    url: https://api.assetfare.dev/v1/status
+    url: https://api.assetfare.dev/v2/status
 - aid: assetfare:assetfare-session-api
   name: AssetFare Session API
-  description: The Session API from AssetFare — 11 operation(s) for session.
-  humanURL: https://assetfare.dev/solana-to-base-agent-route/
+  description: 'Quote-bound, idempotent, receipt-driven sessions for multistep routes: create, read, observe source and output receipts, and refresh an expired unsubmitted action.'
+  humanURL: https://assetfare.dev/pilot/
   baseURL: https://api.assetfare.dev
   tags:
   - Sessions
@@ -136,10 +191,12 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/assetfare-session-api-openapi.yml
+  - type: OpenAPI Source
+    url: https://api.assetfare.dev/v2/openapi.json
   - type: Documentation
-    url: https://assetfare.dev/solana-to-base-agent-route/
-  - type: APIReference
-    url: https://api.assetfare.dev/openapi.json
+    url: https://assetfare.dev/llms-full.txt
+  - type: GettingStarted
+    url: https://assetfare.dev/pilot/
   - type: LLMsTxt
     url: llms/assetfare-llms.txt
   - type: ToolCrosswalk
@@ -161,21 +218,23 @@ apis:
   - type: Lifecycle
     url: lifecycle/assetfare-lifecycle.yml
   - type: StatusPage
-    url: https://api.assetfare.dev/v1/status
+    url: https://api.assetfare.dev/v2/status
 - aid: assetfare:assetfare-status-api
   name: AssetFare Status API
-  description: The Status API from AssetFare — 1 operation(s) for status.
-  humanURL: https://assetfare.dev/solana-to-base-agent-route/
+  description: Reads route and provider health without creating a quote.
+  humanURL: https://assetfare.dev/pilot/
   baseURL: https://api.assetfare.dev
   tags:
   - Status
   properties:
   - type: OpenAPI
     url: openapi/assetfare-status-api-openapi.yml
+  - type: OpenAPI Source
+    url: https://api.assetfare.dev/v2/openapi.json
   - type: Documentation
-    url: https://assetfare.dev/solana-to-base-agent-route/
-  - type: APIReference
-    url: https://api.assetfare.dev/openapi.json
+    url: https://assetfare.dev/llms-full.txt
+  - type: GettingStarted
+    url: https://assetfare.dev/pilot/
   - type: LLMsTxt
     url: llms/assetfare-llms.txt
   - type: ToolCrosswalk
@@ -197,52 +256,31 @@ apis:
   - type: Lifecycle
     url: lifecycle/assetfare-lifecycle.yml
   - type: StatusPage
-    url: https://api.assetfare.dev/v1/status
-- aid: assetfare:assetfare-well-known-api
-  name: AssetFare .well Known API
-  description: The .well Known API from AssetFare — 1 operation(s) for .well known.
-  humanURL: https://assetfare.dev/solana-to-base-agent-route/
+    url: https://api.assetfare.dev/v2/status
+- aid: assetfare:assetfare-legacy-v1-api
+  name: AssetFare Legacy v1 Compatibility API
+  description: The earlier v1 route API (wallet auth, quote, session and status), still served for compatibility and
+    listed in the provider's API catalog as a legacy anchor beside v2.
+  humanURL: https://api.assetfare.dev/llms.txt
   baseURL: https://api.assetfare.dev
   tags:
-  - .well Known
+  - Legacy
   properties:
-  - type: OpenAPI
-    url: openapi/assetfare-well-known-api-openapi.yml
-  - type: Documentation
-    url: https://assetfare.dev/solana-to-base-agent-route/
-  - type: APIReference
+  - type: OpenAPI Source
     url: https://api.assetfare.dev/openapi.json
-  - type: LLMsTxt
-    url: llms/assetfare-llms.txt
-  - type: ToolCrosswalk
-    url: mcp/assetfare-tool-crosswalk.yml
-  - type: ErrorCatalog
-    url: errors/assetfare-problem-types.yml
-  - type: Conventions
-    url: conventions/assetfare-conventions.yml
-  - type: Idempotency
-    url: conventions/assetfare-conventions.yml
-  - type: DataModel
-    url: data-model/assetfare-data-model.yml
-  - type: Conformance
-    url: conformance/assetfare-conformance.yml
-  - type: Plans
-    url: plans/assetfare-plans-pricing.yml
-  - type: RateLimits
-    url: rate-limits/assetfare-rate-limits.yml
-  - type: Lifecycle
-    url: lifecycle/assetfare-lifecycle.yml
+  - type: Documentation
+    url: https://api.assetfare.dev/llms.txt
   - type: StatusPage
     url: https://api.assetfare.dev/v1/status
 maintainers:
-- FN: odaiin
-  url: https://github.com/odaiin/assetfare-mcp
+- FN: AssetFare
+  url: https://github.com/assetfare/assetfare-mcp
   email: support@assetfare.dev
 common:
 - type: MCPServer
   url: https://api.assetfare.dev/mcp
 - type: AgentSkill
-  url: https://github.com/odaiin/assetfare-mcp/blob/main/skills/assetfare-route/SKILL.md
+  url: https://github.com/assetfare/assetfare-mcp/blob/main/skills/assetfare-route/SKILL.md
 - type: Overlay
   url: overlays/assetfare-agent-native-route-api-overlay.yaml
 - type: DomainSecurity
@@ -270,9 +308,39 @@ common:
 - type: PrivacyPolicy
   url: https://assetfare.dev/privacy/
 - type: SourceCode
-  url: https://github.com/odaiin/assetfare-mcp
+  url: https://github.com/assetfare/assetfare-mcp
 - type: Website
   url: https://assetfare.dev/
+- type: GettingStarted
+  url: https://assetfare.dev/pilot/
+- type: Documentation
+  url: https://assetfare.dev/llms-full.txt
+- type: LLMsTxt
+  url: https://assetfare.dev/llms.txt
+- type: LLMsFullTxt
+  url: https://assetfare.dev/llms-full.txt
+- type: Pricing
+  url: https://assetfare.dev/pricing.json
+- type: APICatalog
+  url: https://api.assetfare.dev/.well-known/api-catalog
+- type: APICatalog
+  url: https://assetfare.dev/.well-known/api-catalog
+- type: APIsJSON
+  url: https://assetfare.dev/apis.json
+- type: AgentCard
+  url: https://api.assetfare.dev/.well-known/agent-card.json
+- type: ARD
+  url: https://assetfare.dev/.well-known/ard.json
+- type: PluginManifest
+  url: https://assetfare.dev/.well-known/ai-plugin.json
+- type: X-ProviderManifest
+  url: https://api.assetfare.dev/.well-known/assetfare-manifest.json
+- type: StatusPage
+  url: https://api.assetfare.dev/v2/status
+- type: Arazzo
+  url: https://assetfare.dev/arazzo.yaml
+- type: Package
+  url: https://www.npmjs.com/package/assetfare-mcp
 x-correction-request:
   requested: '2026-09-28'
   source:
@@ -296,3 +364,5 @@ x-correction-request:
       non-identity routes with caller-signed unsigned-action workflows, USD 1 technical quote minimum and no business
       maximum, exact 1 bp service fee, no server key custody/signing/submission. Sources: https://assetfare.dev/apis.json,
       https://api.assetfare.dev/v2/openapi.json.'
+  applied: '2026-10-03'
+  applied_note: 'Applied by hand from the LIVE documents 2026-10-03: description and API entries rebuilt from v2 (live now says 16 chains, 54 active routes, not the 8/80 in the request); v2 + quote-only OpenAPI saved verbatim, v2 split and standardized (5 APIs), v1 splits moved to _superseded with v1 kept as one legacy entry because it is still served; llms.txt, llms-full, pricing.json, manifest, both api-catalogs, apis.json, agent card, ard.json, ai-plugin.json (root host, not api host) and v2 status wired; SourceCode/AgentSkill/maintainer moved to assetfare/assetfare-mcp; MCP manifest, crosswalk, plans, rate-limits and well-known re-probed. No use-AssetFare-first wording; Documentation does not point at capabilities JSON.'

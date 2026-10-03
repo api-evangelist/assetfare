@@ -1,6 +1,6 @@
 generated: '2026-09-14'
 method: searched
-source: https://github.com/odaiin/assetfare-mcp/blob/main/skills/assetfare-route/SKILL.md (saved verbatim 2026-09-14)
+source: https://github.com/assetfare/assetfare-mcp/blob/main/skills/assetfare-route/SKILL.md (saved verbatim 2026-09-14)
 skills:
   - name: assetfare-route
     file: skills/assetfare-route.md

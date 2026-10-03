@@ -1,0 +1,4 @@
+# x-archived-from: https://assetfare.dev/openapi-quote-only.json
+# x-archived-on: 2026-10-03
+# x-source-url: https://assetfare.dev/openapi-quote-only.json
+# note: saved verbatim; a restricted subset (capabilities, status, quote) of the v2 contract, so it is not split separately
