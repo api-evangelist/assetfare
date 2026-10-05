@@ -1,0 +1,12 @@
+{
+ "url": "https://assetfare.dev/openapi-quote-only.json",
+ "requested_url": "https://assetfare.dev/openapi-quote-only.json",
+ "status": 200,
+ "content_type": "application/json; charset=UTF-8",
+ "bytes": 392150,
+ "sha256": "ae246359321db9191e1ee11c84d0b8e387bef27beca606c3a352c3fdb8e1f5c4",
+ "fetched_at": "2026-10-04",
+ "fetched_by": "APIEvangelist-Harvest/1.0 (+https://apievangelist.com)",
+ "match": "byte-identical",
+ "note": "Re-fetched from the provider by verify-openapi-sources.py; the archived file is byte-identical to what the provider serves."
+}
