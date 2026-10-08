@@ -277,6 +277,10 @@ maintainers:
   url: https://github.com/assetfare/assetfare-mcp
   email: support@assetfare.dev
 common:
+- type: Plans
+  url: plans/assetfare-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/assetfare-rate-limits.yml
 - type: MCPServer
   url: https://api.assetfare.dev/mcp
 - type: AgentSkill
