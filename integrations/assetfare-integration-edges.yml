@@ -14,7 +14,7 @@ edges:
     registered_name: io.github.assetfare/assetfare
     register_id: io.github.assetfare/assetfare
     detected_by: sweep-agent-tools.py
-    detected: '2026-10-14'
+    detected: '2026-10-15'
   mcp_registry:
     servers:
     - io.github.assetfare/assetfare
@@ -31,7 +31,46 @@ edges:
   - remote-domain
   detected_by: sweep-agent-tools.py
   first_seen: '2026-10-14'
+- partner_name: a2aregistry.org
+  partner: null
+  partner_match: register
+  type: register
+  direction: partner-built
+  category: A2A agent registry
+  evidence: https://a2aregistry.org/api/agents/d4f9ab1a-904c-4227-8fc6-548e45749de1
+  channel: standard-directory
+  relationship: compatible
+  shape: a2a
+  evidence_kind: register-listing
+  degree: listed
+  report_only: true
+  a2a_register:
+    hosts:
+    - assetfare.dev
+    conformance: true
+    task_conformance_working: true
+    healthy: true
+    signal_note: booleans over the provider's hosts; listings are context, never read
+  contract_reference:
+    register: a2aregistry.org /api/agents
+    spec_file: null
+    standard: A2A
+    role: a2a-registry-listing
+    registered_name: AssetFare
+    matched_domain: assetfare.dev
+    matched_by: domain
+    matched_via: card-host
+    listings_context: 1
+    sample_agents:
+    - AssetFare Route Quotes
+    detected_by: sweep-ai-agents.py
+    detected: '2026-10-15'
+  detected_by: sweep-ai-agents.py
+  first_seen: '2026-10-15'
 generated: '2026-10-14'
 method: searched
 checked:
+- https://a2aregistry.org/api/agents
 - https://registry.modelcontextprotocol.io/v0/servers
+source:
+- https://a2aregistry.org/api/agents
