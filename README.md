@@ -1,6 +1,4 @@
-# assetfare
-
-A capped, non-custodial routing API for a single corridor — Solana SOL to Base native ETH — aimed at AI agents. It returns fee-inclusive quotes and bounded unsigned actions; the caller's agent verifies, signs, and submits every transaction. AssetFare never receives private keys and never signs or submits, framing itself as one route candidate rather than a market-wide best-price aggregator.
+# AssetFare
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -65,3 +63,148 @@ A capped, non-custodial routing API for a single corridor — Solana SOL to Base
 >
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
+
+A non-custodial routing API for AI agents that returns fee-inclusive cross-chain and same-chain quotes and bounded unsigned actions; the caller's own wallet verifies, signs and submits every transaction, and AssetFare never holds keys, signs or submits. Its live v2 capabilities document (checked 2026-10-03) lists 16 chains, 20 asset endpoints and 54 active directed routes (a further 44 measured routes are inactive), with a USD 1 minimum, no business maximum and an exact 1 bp service fee on top of provider and network fees. The v2 REST contract covers capabilities, quote, prepare, a receipt-driven session lifecycle and status; the same surface is offered over MCP and A2A, and a legacy v1 compatibility API remains live.
+
+**Areas:** AI Agents · Asset Transfer · Bridge · Cross-Chain · Non-Custodial · Cryptocurrency · Solana · Base · Arbitrum · Robinhood Chain · Optimism · Ethereum
+
+## AssetFare on APIs.io
+
+Everything profiled for AssetFare is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/assetfare/](https://apis.io/providers/assetfare/)** — or go straight to one of the APIs or properties below.
+
+### APIs (6)
+
+- [AssetFare Capabilities API](https://apis.io/apis/assetfare/assetfare-capabilities-api/) — Reads the live v2 capability document: chains, asset endpoints, active and inactive directed routes, fee policy, amount policy and execution availability.
+- [AssetFare Prepare API](https://apis.io/apis/assetfare/assetfare-prepare-api/) — Returns a validated, bounded unsigned action bundle for a quote the caller has explicitly approved; the caller signs and submits.
+- [AssetFare Quote API](https://apis.io/apis/assetfare/assetfare-quote-api/) — Quotes a live route with expected and minimum receive, total token-path cost, provider fees, ETA and the ordered direct-protocol provider path.
+- [AssetFare Session API](https://apis.io/apis/assetfare/assetfare-session-api/) — Quote-bound, idempotent, receipt-driven sessions for multistep routes: create, read, observe source and output receipts, and refresh an expired unsubmitted…
+- [AssetFare Status API](https://apis.io/apis/assetfare/assetfare-status-api/) — Reads route and provider health without creating a quote.
+- [AssetFare Legacy v1 Compatibility API](https://apis.io/apis/assetfare/assetfare-legacy-v1-api/) — The earlier v1 route API (wallet auth, quote, session and status), still served for compatibility and listed in the provider's API catalog as a legacy…
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### Arazzo workflows (1)
+
+Multi-step workflows that chain operations into a business task.
+
+- [AssetFare read-only route evaluation](https://apis.io/arazzos/assetfare/assetfare-route-evaluation-arazzo/)
+
+#### MCP servers (1)
+
+Model Context Protocol servers that expose the API to agents.
+
+- [mcp](https://apis.io/servers/assetfare/mcp/)
+
+#### Agentic access (1)
+
+Which operations an agent can call, which act, and which need a human in the loop.
+
+- [Assetfare Agentic Access](https://apis.io/agentic-access/assetfare/assetfare-agentic-access/)
+
+#### JSON-LD (1)
+
+Linked-data contexts for the provider's vocabulary.
+
+- [Moved to /providers/assetfare/](https://apis.io/jsonld/assetfare/assetfare-context/)
+
+#### Overlays (2)
+
+OpenAPI overlays, including conversational phrasing for each operation.
+
+- [Assetfare Agent Native Route Api Overlay](https://apis.io/overlays/assetfare/assetfare-agent-native-route-api-overlay/)
+- [Assetfare Openapi Overlay](https://apis.io/overlays/assetfare/assetfare-openapi-overlay/)
+
+#### Governance rules (1)
+
+Spectral rulesets for the provider's contracts.
+
+- [Moved to /providers/assetfare/](https://apis.io/rules/assetfare/assetfare-rules/)
+
+#### Security (3)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Assetfare Authentication](https://apis.io/security/assetfare/assetfare-authentication/)
+- [Assetfare Domain Security](https://apis.io/security/assetfare/assetfare-domain-security/)
+- [Assetfare Vulnerability Disclosure](https://apis.io/security/assetfare/assetfare-vulnerability-disclosure/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Assetfare Plans Pricing](https://apis.io/plans/assetfare/assetfare-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Assetfare Rate Limits](https://apis.io/rate-limits/assetfare/assetfare-rate-limits/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://assetfare.dev/)
+- [Documentation](https://assetfare.dev/llms-full.txt)
+- [Getting started](https://assetfare.dev/pilot/)
+- [Pricing](https://assetfare.dev/pricing/)
+- [Terms of service](https://assetfare.dev/terms/)
+- [Privacy policy](https://assetfare.dev/privacy/)
+- [Status](https://api.assetfare.dev/v2/status)
+
+## API Evangelist rating
+
+**Kin Score 59.3** — strong · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 86.7 |
+| Contract quality | 55.0 |
+| Contract governance | 31.8 |
+| Operational transparency | 63.2 |
+| Developer ergonomics | 50.0 |
+| Access clarity | 52.6 |
+
+**Agent readiness 51.3** — agent-native
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | documented (partial credit) |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | verified |
+| Error Semantics | verified |
+| OpenAPI Examples | partial |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | yes |
+| Well Known Catalog | yes |
+| Consent Identity | — |
+| Agent Card | conformant |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+| Pagination Ratio | na |
+| Operation Distinctiveness | distinct |
+
+**Regulatory alignment 30.4** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/assetfare/](https://apis.io/providers/assetfare/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for AssetFare: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/assetfare/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
